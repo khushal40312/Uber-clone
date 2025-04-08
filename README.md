@@ -99,19 +99,21 @@ Welcome to **Day 2** of my **#100DaysOfCode** challenge! 🚀
 ---
 
 📅 On to Day 3 tomorrow! Thinking about ride requests or captain location updates next.
-# Day 3 – Location & Maps Integration
+# Day 3 – Location & Maps Integration (Uber Clone Backend)
 
-**Day 3** of my #100DaysOfCode challenge is complete ✅  
-Today I added **maps and location services** to my backend—super useful for any ride-sharing or delivery-based app.
+**Day 3** of my #100DaysOfCode challenge is done ✅  
+Today was all about integrating **location-based services** into the backend for my **Uber clone project**.
 
-## 🌍 What I Did
+## 🌍 What I Built
 
-- Integrated **maps API** (using [GoMaps](https://maps.gomaps.pro), a free Google Maps-compatible service).
+Added core map functionality to power ride discovery, ETA calculations, and autocomplete during pickup/dropoff.
+
+- Integrated **GoMaps API** (a free Google Maps-compatible alternative).
 - Created a service layer to handle:
-  - Getting coordinates from a human-readable address
-  - Getting distance & time between two points
-  - Location autocomplete suggestions
-- Created protected routes (auth required) for map-based queries.
+  - 📍 Converting addresses into coordinates
+  - 🚗 Calculating distance & estimated travel time between two locations
+  - 🔍 Autocomplete suggestions for locations during input
+- Built secure **protected API routes** for these services.
 
 ## ✨ API Endpoints
 
@@ -144,7 +146,7 @@ Today I added **maps and location services** to my backend—super useful for an
 
 -Custom controller & service layers
 
-##🧠 Lessons Learned
+## 🧠 Lessons Learned
 -How to structure external API calls in a service layer
 
 -Validating query parameters with express-validator
@@ -152,7 +154,8 @@ Today I added **maps and location services** to my backend—super useful for an
 -Error handling best practices with external APIs
 
 -Using alternatives to Google Maps that are cost-effective
-----------------
+
+---
 🔥 Maps are now part of the project! On to Day 4 next. Thinking about implementing ride requests or driver discovery…
 
 
