@@ -159,3 +159,61 @@ Added core map functionality to power ride discovery, ETA calculations, and auto
 🔥 Maps are now part of the project! On to Day 4 next. Thinking about implementing ride requests or driver discovery…
 
 
+# Day 4 – Ride Management, Real-Time Updates & GPS Challenges (Uber Clone)
+
+**Day 4** of my #100DaysOfCode is complete ✅  
+Today I wrapped up the **ride management flow** for my **Uber clone backend**, including real-time socket updates, captain assignment, and trip tracking.
+
+## 🛠️ What I Built
+
+- 🚗 **Ride Request Flow**
+  - Users can create ride requests with pickup, destination, and vehicle type.
+  - Available captains are notified in real-time using Socket.io.
+  
+- 🧮 **Fare Estimation**
+  - Built a fare calculator based on:
+    - Base fare
+    - Per km and per minute rates (customized by vehicle type)
+    - Distance & duration via map service
+
+- 📍 **Real-time Ride Lifecycle**
+  - Confirming ride from captain side
+  - Starting & ending rides with OTP verification
+  - Periodic location updates (simulated via intervals)
+
+- 🔒 All endpoints protected via **JWT-based authentication** (separate for users & captains)
+
+## 🔁 Ride API Endpoints
+
+| Method | Route             | Description                            |
+|--------|------------------|----------------------------------------|
+| POST   | `/ride/create`    | User requests a ride                   |
+| GET    | `/ride/get-fare`  | Get fare estimate for a trip           |
+| POST   | `/ride/confirm`   | Captain confirms a ride                |
+| GET    | `/ride/start-ride`| Start ride with OTP verification       |
+| POST   | `/ride/end-ride`  | Mark a ride as completed               |
+
+## 📡 Real-time Features (Socket.io)
+
+- On ride request: Nearby captains receive a `new-ride` event
+- On confirm/start/end ride: User gets live updates via `ride-confirmed`, `ride-started`, and `ride-ended` events
+- Captain location updated periodically, throttled to once per minute to save bandwidth
+
+## ⚠️ Challenges Faced
+
+Today I ran into an issue where **location updates weren’t accurate**, especially when testing on my device.  
+Turns out: **My device doesn't support high-accuracy GPS**, so I was getting approximate locations via Wi-Fi/IP.  
+**Lesson learned**: Always verify device GPS settings when testing geo features!
+
+## 🧠 Key Takeaways
+
+- How to chain ride status transitions (pending → accepted → ongoing → completed)
+- Structuring ride-related logic in clean service layers
+- Using **express-validator** to keep requests safe and predictable
+- Handling geo location edge cases in real-world testing
+
+---
+
+🎯 **Next Up (Day 5)**: I'm switching gears and starting the **client-side (mobile/web) app** for users to request and track rides! Excited to build out real-time UI with maps and socket updates.
+
+Let’s gooo 🚀
