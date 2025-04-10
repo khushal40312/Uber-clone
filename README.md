@@ -237,7 +237,8 @@ Today was all about building out the **user and captain authentication flow** in
 
 ### 🚖 Captain Flow
 - ✅ **Captain Login** page  
-- ✅ **Captain Logout** functionality  
+- ✅ **Captain Logout** functionality
+- ✅ **Captain Signup** page  
 - ✅ Separate home screen for Captain
 
 ---
