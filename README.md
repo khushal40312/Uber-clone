@@ -217,13 +217,9 @@ Turns out: **My device doesn't support high-accuracy GPS**, so I was getting app
 🎯 **Next Up (Day 5)**: I'm switching gears and starting the **client-side (mobile/web) app** for users to request and track rides! Excited to build out real-time UI with maps and socket updates.
 
 Let’s gooo 🚀
-## 🚀 100 Days of Code - Day 5: Building the Uber Clone (Frontend)
 
-**Date:** April 10, 2025  
-**Project:** Uber Clone  
-**Day:** 5 of #100DaysOfCode
+# 🚀 Day 5: Building the Uber Clone (Frontend)
 
----
 
 ### ✅ What I Did Today
 
@@ -267,3 +263,4 @@ Today was all about building out the **user and captain authentication flow** in
 ### 🧠 Reflection
 Feeling good about today’s progress. Routing and auth handling are now solid foundations to build on. Separating flows for users and captains turned out cleaner than expected!
 
+ 
