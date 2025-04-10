@@ -217,3 +217,53 @@ Turns out: **My device doesn't support high-accuracy GPS**, so I was getting app
 🎯 **Next Up (Day 5)**: I'm switching gears and starting the **client-side (mobile/web) app** for users to request and track rides! Excited to build out real-time UI with maps and socket updates.
 
 Let’s gooo 🚀
+## 🚀 100 Days of Code - Day 5: Building the Uber Clone (Frontend)
+
+**Date:** April 10, 2025  
+**Project:** Uber Clone  
+**Day:** 5 of #100DaysOfCode
+
+---
+
+### ✅ What I Did Today
+
+Today was all about building out the **user and captain authentication flow** in the frontend for my Uber Clone project. After setting up all necessary dependencies, I implemented the following key features using **React**:
+
+---
+
+### 👨‍💻 User Flow
+- ✅ **User Signup** page  
+- ✅ **User Login** page  
+- ✅ **User Logout** functionality  
+- ✅ Redirects based on auth token (user vs. captain)
+
+---
+
+### 🚖 Captain Flow
+- ✅ **Captain Login** page  
+- ✅ **Captain Logout** functionality  
+- ✅ Separate home screen for Captain
+
+---
+
+### ⚙️ Tech Stack & Tools
+- React + React Router DOM
+- Axios for HTTP requests
+- Tailwind CSS for UI styling
+- Context API for global auth state management
+- Lazy loading with `React.Suspense` for routes
+- Loading screen component
+
+---
+
+
+### 🔍 Next Up
+- Start designing the **Home** screens (for users and captains)
+- Implement **ride booking flow**
+- Add **map integrations** and **location tracking**
+
+---
+
+### 🧠 Reflection
+Feeling good about today’s progress. Routing and auth handling are now solid foundations to build on. Separating flows for users and captains turned out cleaner than expected!
+
