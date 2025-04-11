@@ -264,4 +264,37 @@ Today was all about building out the **user and captain authentication flow** in
 ### 🧠 Reflection
 Feeling good about today’s progress. Routing and auth handling are now solid foundations to build on. Separating flows for users and captains turned out cleaner than expected!
 
- 
+ # 🚀  Day 6: Uber Clone – User Home & Ride Flow
+
+#### ✅ What I Built Today:
+- Created the **User Home Page**
+- Integrated **Pickup & Destination Search** with live suggestions
+- Implemented:
+  - `Find Trip` feature with vehicle fare calculation
+  - `Select Vehicle` modal
+  - `Confirm Ride` modal
+  - `Looking For Driver` screen
+  - Live tracking setup (ready for use)
+- Integrated **WebSocket for real-time updates** (ride confirmed, ride started)
+- Enabled **geolocation tracking** and fallback prompt if disabled
+
+---
+
+#### 🧠 Tech Stack Used:
+- React, Redux, GSAP, Axios, WebSocket
+- Debounced search suggestions using custom + lodash debounce
+- Geolocation API + conditional rendering based on permission
+- Modular components: `VehicleModal`, `ConfirmRide`, `LiveLocation`, etc.
+
+---
+
+#### 📍 Next Steps:
+- Start building the **Captain side Home**
+- Ride acceptance and navigation for captains
+- Real-time location sharing and ride updates
+
+---
+
+📅 **Day 6 / 100**  
+🔨 Still building the Uber Clone, one screen at a time!
+
