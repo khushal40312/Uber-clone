@@ -297,4 +297,52 @@ Feeling good about today’s progress. Routing and auth handling are now solid f
 
 📅 **Day 6 / 100**  
 🔨 Still building the Uber Clone, one screen at a time!
+# 🚀 Day 7 - Riding Page (User Side) Complete
+
+## ✅ What I Did Today
+
+- Created the **Riding** page for the user.
+- Integrated **WebSocket** to receive real-time captain location updates.
+- Used `LiveLocation` component to render the map and show captain’s movement.
+- Displayed essential ride information:
+  - Captain’s name
+  - Vehicle type & plate number
+  - Destination
+  - Fare
+- Added a **"Make Payment"** button (UI only for now).
+- Handled `ride-ended` event to automatically redirect user to `/home`.
+
+## 🧠 Tech Stack
+
+- React
+- Redux (ride state)
+- React Router DOM
+- Tailwind CSS
+- WebSocket (custom integration)
+
+## 📦 Components Used
+
+- `LiveLocation`
+- `WebSocket` (helper function)
+- Redux `ride` state
+- React Router's `useNavigate` for redirection
+
+## ⚙️ Features
+
+- Real-time location tracking
+- Dynamic ride details from state
+- Smooth UI transition and responsive layout
+- Home button for quick return
+
+## 🔮 What's Next (Day 8 Goals)
+
+- Build the **Captain's Riding Page**
+- Emit live location updates from captain to backend
+- Send `ride-ended` event from captain’s side
+- Finalize real-time communication flow between user and captain
+
+---
+
+🧑‍💻 Progressing strong on the 100 Days of Code challenge.  
+💡 Focus for tomorrow: real-time updates from the **driver's end**.
 
