@@ -32,7 +32,7 @@ const App = () => {
             <>
               <Route path='/captain-home' element={<CaptainHome />} />
               <Route path='/captains/logout' element={<CaptainLogout />} />
-              
+             
             </>
           )}
 
@@ -48,6 +48,7 @@ const App = () => {
           ) : (
             <>
               <Route path='/home' element={<Home />} />
+              <Route path='/riding' element={<Riding />}/>
                 <Route path='/users/logout' element={<UserLogout />} />
 
             </>)}
