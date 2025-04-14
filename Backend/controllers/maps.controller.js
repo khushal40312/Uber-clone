@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 const mapService = require('../services/maps.service');
-
+const captainModel = require('../models/captain.model');
 
 module.exports.getCoordinates = async (req, res, next) => {
     const error = validationResult(req)
@@ -40,7 +40,7 @@ module.exports.getDistanceTime = async (req, res, next) => {
     }
 }
 module.exports.getAutoCompleteSuggestions = async (req, res, next) => {
-
+ 
     try {
 
         const errors = validationResult(req);

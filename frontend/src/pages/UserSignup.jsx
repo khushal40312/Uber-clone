@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
 
 import axios from 'axios';
 import { UserDataContext } from '../../context/UserContext';
@@ -28,13 +29,25 @@ const UserSignup = () => {
 
 
     })
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser)
-
-    if (response.status === 201) {
-      const data = response.data
-      setIsAuthenticated(true)
-      navigate('/home')
-    }
+    toast.promise(
+      axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser),
+      {
+        pending: 'Creating account...',
+        success: {
+          render({ data }) {
+            const res = data.data;
+            setIsAuthenticated(true);
+            navigate('/home');
+            return 'Signup successful!';
+          },
+        },
+        error: {
+          render({ data }) {
+            return data?.response?.data?.message || 'Signup failed';
+          },
+        },
+      }
+    );
     setEmail('')
     setPassword('')
     setFirstname('')

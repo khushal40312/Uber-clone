@@ -14,10 +14,12 @@ import WebSocket from '../Functions/WebSocket';
 import { useDispatch, useSelector } from 'react-redux';
 import { UserAction } from '../store/userProfileSlice';
 import { RideAction } from '../store/rideInfoSlice';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LiveTracking from '../components/LiveTracking';
 import LiveLocation from '../components/LiveLocation';
 import { FaLocationDot, FaUser } from "react-icons/fa6";
+import { IoIosLogOut } from 'react-icons/io';
+import { toast } from 'react-toastify';
 const socket = WebSocket();
 
 const Home = () => {
@@ -39,7 +41,6 @@ const Home = () => {
   const [createdRide, setcreatedRide] = useState({});
   const [position3, setposition3] = useState([]);
   const [locationButton, setlocationButton] = useState(false);
-  locationButton
   const [isUserTyped, setIsUserTyped] = useState(false);
   const modalRef = useRef(null);
   const modalDownButtonRef = useRef(null);
@@ -115,8 +116,13 @@ const Home = () => {
   useEffect(() => {
 
     socket.on('location-update', (data) => {
+
       setposition(data)
+
+
+
     })
+
   })
   useEffect(() => {
     socket.on('ride-started', (data) => {
@@ -206,29 +212,36 @@ const Home = () => {
 
   }
   async function createRide(location, destination, vehicleType) {
-    setLoading3(true)
-
-    try {
-      const response = await axios.post(
+    setLoading3(true);
+  
+    await toast.promise(
+      axios.post(
         `${import.meta.env.VITE_BASE_URL}/rides/create`,
-        { pickup: location, destination, vehicleType }, // Request body
+        { pickup: location, destination, vehicleType },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
-            'Content-Type': 'application/json'
-          }
+            'Content-Type': 'application/json',
+          },
         }
-      );
-
-      setcreatedRide(response.data);
-    } catch (error) {
-      setLoading3(false)
-
-      console.error('Error creating ride:', error);
-    } finally {
-      setLoading3(false);
-    }
-
+      ),
+      {
+        pending: 'Requesting a ride...',
+        success: 'Ride created successfully! Looking for a driver...',
+        error: {
+          render({ data }) {
+            console.error('Error creating ride:', data);
+            return data?.response?.data?.message || 'Failed to create ride';
+          },
+        },
+      }
+    ).then((res) => {
+      
+      setcreatedRide(res.data);
+    });
+    
+  
+    setLoading3(false);
     setconfirmVmodal(false);
   }
 
@@ -329,6 +342,9 @@ const Home = () => {
           },
           (error) => {
             console.error("Location error:", error);
+              toast.error("Unable to access location. Please enable GPS.");
+            
+            
           }
         );
       }
@@ -354,6 +370,7 @@ const Home = () => {
           <LiveTracking locationEnabled={locationEnabled} position2={position3} height={"100vh"} />
         }
       </div>
+      <Link to='/users/logout' className='fixed right-6 top-15 bg-white w-10 h-10 flex items-center justify-center rounded-xl'><IoIosLogOut size={15} /></Link>
       <div ref={modalRef} className='rounded-xl bg-white absolute w-full p-3 transition-all duration-300 ease-in-out z-2 '>
         <span ref={modalDownButtonRef} className='top-3 right-3 absolute ' onClick={() => setModal(false)}><IoChevronDownSharp size={29} /></span>  <h4 className='text-lg font-semibold mb-2'>Find a trip</h4>
         <form onSubmit={(e) => submitHandler(e)} >

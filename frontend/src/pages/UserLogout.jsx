@@ -25,7 +25,7 @@ const UserLogout = () => {
         }).catch((error) => {
             console.error("Logout failed:", error);
             localStorage.removeItem('token'); // Ensure token is removed on failure too
-            navigate('/home');
+            navigate('/login');
         });
 
     }, [navigate]); // Runs only on mount

@@ -8,6 +8,7 @@ import Loading from './Loading';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { RideAction } from '../store/rideInfoSlice';
+import { toast } from 'react-toastify';
 
 const ConfirmRidePopup = ({ setConfirmRidePopup, acceptedRide, confirmPanel }) => {
     const dispatch = useDispatch();
@@ -16,30 +17,34 @@ const ConfirmRidePopup = ({ setConfirmRidePopup, acceptedRide, confirmPanel }) =
     const [otp, setOtp] = useState('')
     const handleOTP = async (e) => {
         e.preventDefault();
-
-        setloading(true)
-
-        try {
-            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/start-ride`, {
-                params: { rideId: acceptedRide._id, otp }, // Correct way to send query params
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('cap-token')}`
-                }
-            });
-
-            if (response.status === 200) {
-                dispatch(RideAction.addRideInfo(response.data))
-                setOtp('')
-
-                navigate('/captain-riding')
-                setloading(false)
+        setloading(true);
+      
+        await toast.promise(
+          axios.get(`${import.meta.env.VITE_BASE_URL}/rides/start-ride`, {
+            params: { rideId: acceptedRide._id, otp },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('cap-token')}`
             }
-        } catch (error) {
-            console.log(error)
-            setloading(false)
-        }
-
-    }
+          }),
+          {
+            pending: 'Verifying OTP...',
+            success: 'Ride started successfully!',
+            error: {
+              render({ data }) {
+                console.error(data);
+                return data?.response?.data?.message || 'OTP verification failed.';
+              }
+            }
+          }
+        ).then(response => {
+          dispatch(RideAction.addRideInfo(response.data));
+          setOtp('');
+          navigate('/captain-riding');
+          setConfirmRidePopup(false);
+        }).finally(() => {
+          setloading(false);
+        });
+      };
 
     return (
         <>
@@ -96,10 +101,7 @@ const ConfirmRidePopup = ({ setConfirmRidePopup, acceptedRide, confirmPanel }) =
                             value={otp}
                             onChange={(e) => setOtp(e.target.value)}
                             className='font-mono bg-[#eeeeee] rounded   w-90 text-lg pl-8 p-2 m-2 placeholder:text-base  ' type="number" placeholder='Enter OTP' />
-                        <button onClick={() => {
-                            setConfirmRidePopup(false)
-
-                        }} className='flex items-center justify-center w-90 bg-green-500 text-white font-semibold py-3 m-2 rounded-lg  '>Confirm</button>
+                        <button className='flex items-center justify-center w-90 bg-green-500 text-white font-semibold py-3 m-2 rounded-lg  '>Confirm</button>
                         <button onClick={() => {
                             setConfirmRidePopup(false)
 

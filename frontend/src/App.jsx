@@ -8,6 +8,7 @@ import CaptainHome from './pages/CaptainHome'
 import CaptainLogout from './pages/CaptainLogout'
 import Riding from './pages/Riding'
 import CaptainRiding from './pages/CaptainRiding'
+import { ToastContainer } from 'react-toastify';
 
 // Lazy-loaded components
 const Start = lazy(() => import('./pages/Start'))
@@ -16,14 +17,16 @@ const UserSignup = lazy(() => import('./pages/UserSignup'))
 const CaptainSignup = lazy(() => import('./pages/CaptainSignup'))
 const CaptainLogin = lazy(() => import('./pages/CaptainLogin'))
 const Home = lazy(() => import('./pages/Home'))
-
 const App = () => {
 
   const { isAuthenticated } = React.useContext(UserDataContext)
   const { isCaptainAuthenticated } = React.useContext(CaptainDataContext)
 
   return (
+    <>
+<ToastContainer position="top-center" autoClose={3000} hideProgressBar />
     <div className=''>
+
       <Suspense fallback={<div className='w-full h-screen flex items-center justify-center '><Loading /></div>}>
         <Routes>
 
@@ -48,13 +51,14 @@ const App = () => {
           ) : (
             <>
               <Route path='/home' element={<Home />} />
-              <Route path='/riding' element={<Riding />}/>
-                <Route path='/users/logout' element={<UserLogout />} />
+              <Route path='/riding' element={<Riding />} />
+              <Route path='/users/logout' element={<UserLogout />} />
 
             </>)}
         </Routes>
       </Suspense>
     </div>
+    </>
   )
 }
 

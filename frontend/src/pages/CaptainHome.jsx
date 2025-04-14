@@ -13,6 +13,7 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import Loading from '../components/Loading';
 import LiveTracking from '../components/LiveTracking';
+import { toast } from 'react-toastify';
 
 const socket = WebSocket();
 
@@ -51,7 +52,8 @@ const CaptainHome = () => {
           })
           dispatch(UserAction.addUserInfo(response.data))
         } catch (error) {
-          console.error(error)
+          toast.error("Failed to fetch profile. Please try again.");
+
         }
       }
       fetchCaptainProfile()
@@ -89,31 +91,32 @@ const CaptainHome = () => {
   }, [captain._id]); // Only re-run when captain._id changes
 
   async function confirmRide(rideId) {
-    setloading(true)
-
-    try {
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`, {
-
+    setloading(true);
+  
+    await toast.promise(
+      axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`, {
         rideId,
         captainId: captain._id,
-
-
       }, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('cap-token')}`
         }
-      })
-
-
-      setConfirmRidePopup(true)
-      setRides([])
-    } catch (error) {
-      console.error(error)
-      setloading(false)
-    } finally {
-      setloading(false)
-    }
-
+      }),
+      {
+        pending: 'Confirming ride...',
+        success: 'Ride confirmed successfully!',
+        error: {
+          render({ data }) {
+            console.error(data);
+            return data?.response?.data?.message || 'Failed to confirm ride';
+          }
+        }
+      }
+    );
+  
+    setConfirmRidePopup(true);
+    setRides([]);
+    setloading(false);
   }
   useGSAP(() => {
     gsap.to(confirmPanel.current, {

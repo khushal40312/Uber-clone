@@ -1,6 +1,15 @@
 const mongoose = require('mongoose');
 
-
+const LatLngSchema = new mongoose.Schema({
+    latitude: {
+        type: Number,
+        required: true
+    },
+    longitude: {
+        type: Number,
+        required: true
+    }
+}, { _id: false });
 const rideSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -26,7 +35,7 @@ const rideSchema = new mongoose.Schema({
 
     status: {
         type: String,
-        enum: [ 'pending', 'accepted', "ongoing", 'completed', 'cancelled' ],
+        enum: ['pending', 'accepted', "ongoing", 'completed', 'cancelled'],
         default: 'pending',
     },
 
@@ -53,6 +62,15 @@ const rideSchema = new mongoose.Schema({
         select: false,
         required: true,
     },
+
+    start: {
+        type: LatLngSchema,
+        required: true
+    },
+    end: {
+        type: LatLngSchema,
+        required: true
+    }
 
 })
 

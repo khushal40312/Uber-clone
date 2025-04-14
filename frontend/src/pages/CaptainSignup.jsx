@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { CaptainDataContext } from '../../context/CaptainContext'
+import { toast } from 'react-toastify';
 
 const CaptainSignup = () => {
 
@@ -35,14 +36,26 @@ const navigate = useNavigate();
       }
 
     })
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData)
-
-    if (response.status === 201) {
-      const data = response.data
-      setIsCaptainAuthenticated(true)
-      localStorage.setItem('cap-token',data.token)
-      navigate('/captain-home')
-    }
+    toast.promise(
+      axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData),
+      {
+        pending: 'Creating captain account...',
+        success: {
+          render({ data }) {
+            const res = data.data;
+            setIsCaptainAuthenticated(true);
+            localStorage.setItem('cap-token', res.token);
+            navigate('/captain-home');
+            return 'Captain account created successfully!';
+          },
+        },
+        error: {
+          render({ data }) {
+            return data?.response?.data?.message || 'Captain signup failed';
+          },
+        },
+      }
+    );
     setEmail('')
     setPassword('')
     setFirstname('')

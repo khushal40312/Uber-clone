@@ -8,7 +8,7 @@ module.exports.authUser = async (req, res, next) => {
     const authHeader = req.headers.authorization;
     const token = req.cookies?.token || authHeader?.split(' ')[1]
 
-    // console.log(token)
+    
     if (!token) {
         return res.status(401).json({ message: 'unauthorized' });
     }
@@ -24,7 +24,7 @@ module.exports.authUser = async (req, res, next) => {
         req.user = user;
         next()
     } catch (error) {
-        console.log(error)
+        
         return res.status(401).json({ message: 'Unauthorized' });
 
     }

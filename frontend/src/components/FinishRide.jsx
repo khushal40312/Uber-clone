@@ -5,28 +5,35 @@ import { MdSquare } from 'react-icons/md'
 import { RiBillLine } from 'react-icons/ri'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 
 const FinishRide = ({ openFinishRide, setFinishRide,finishRideModal }) => {
     const navigate = useNavigate();
     const ride = useSelector((store) => store.ride)
     async function endRide() {
-        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/end-ride`, {
-
+        await toast.promise(
+          axios.post(`${import.meta.env.VITE_BASE_URL}/rides/end-ride`, {
             rideId: ride._id
-
-
-        }, {
+          }, {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('cap-token')}`
+              Authorization: `Bearer ${localStorage.getItem('cap-token')}`
             }
-        })
-
-        if (response.status === 200) {
-            navigate('/captain-home')
-        }
-
-    }
+          }),
+          {
+            pending: 'Ending ride...',
+            success: 'Ride ended successfully!',
+            error: {
+              render({ data }) {
+                console.error(data);
+                return data?.response?.data?.message || 'Failed to end the ride';
+              }
+            }
+          }
+        );
+      
+        navigate('/captain-home');
+      }
 
 
 

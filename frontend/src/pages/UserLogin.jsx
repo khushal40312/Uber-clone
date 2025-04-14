@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import { UserDataContext } from '../../context/UserContext';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const UserLogin = () => {
 
@@ -20,14 +21,26 @@ const UserLogin = () => {
       password
     }
 
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData)
-
-    if (response.status === 200) {
-      const data = response.data
-      setIsAuthenticated(true)
-      localStorage.setItem('token',data.token)
-      navigate('/home')
-    }
+    toast.promise(
+      axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData),
+      {
+        pending: 'Logging in...',
+        success: {
+          render({ data }) {
+            const res = data.data;
+            setIsAuthenticated(true);
+            localStorage.setItem('token', res.token);
+            navigate('/home');
+            return 'Login successful!';
+          },
+        },
+        error: {
+          render({ data }) {
+            return data?.response?.data?.message || 'Login failed';
+          },
+        },
+      }
+    );
     setEmail('')
     setPassword('')
 
@@ -43,6 +56,7 @@ const UserLogin = () => {
       navigate('/captain-home')
     }
   }, [navigate]);
+
   return (
     <div className='p-7 h-screen flex flex-col justify-between '>
       <div>

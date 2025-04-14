@@ -31,9 +31,9 @@ async function getFare(pickup, destination) {
 
 
     const fare = {
-        auto: Math.round(baseFare.auto + ((distanceTime.distance.value / 1000) * perKmRate.auto) + ((distanceTime.duration.value / 60) * perMinuteRate.auto)),
-        car: Math.round(baseFare.car + ((distanceTime.distance.value / 1000) * perKmRate.car) + ((distanceTime.duration.value / 60) * perMinuteRate.car)),
-        moto: Math.round(baseFare.moto + ((distanceTime.distance.value / 1000) * perKmRate.moto) + ((distanceTime.duration.value / 60) * perMinuteRate.moto))
+        auto: Math.round(baseFare.auto + ((distanceTime.leg.distanceMeters / 1000) * perKmRate.auto) + ((distanceTime.leg.duration / 60) * perMinuteRate.auto)),
+        car: Math.round(baseFare.car + ((distanceTime.leg.distanceMeters / 1000) * perKmRate.car) + ((distanceTime.leg.duration / 60) * perMinuteRate.car)),
+        moto: Math.round(baseFare.moto + ((distanceTime.leg.distanceMeters / 1000) * perKmRate.moto) + ((distanceTime.leg.duration / 60) * perMinuteRate.moto))
     };
 
     return { fare, distanceTime };
@@ -50,7 +50,7 @@ function getOtp(num) {
 }
 
 module.exports.createRide = async ({ user, pickup, destination, vehicleType }) => {
-    // console.log(pickup)
+    
     if (!user || !pickup || !destination || !vehicleType) {
         throw new Error('All fields are required');
     }
@@ -63,7 +63,9 @@ module.exports.createRide = async ({ user, pickup, destination, vehicleType }) =
         destination,
         otp: getOtp(6),
         fare: fareWithDistance.fare[vehicleType],
-        distance: fareWithDistance.distanceTime.distance.text
+        distance: fareWithDistance.distanceMeters,
+        start:fareWithDistance.distanceTime.leg.start,
+        end:fareWithDistance.distanceTime.leg.end,
     })
 
 

@@ -50,7 +50,7 @@ const LiveLoction= ({ height, position2 }) => {
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <MapUpdater position={position} />
         <Marker position={position} icon={L.icon({ iconUrl: markerIconPng, shadowUrl: markerShadowPng })}>
-          <Popup>Your Live Location</Popup>
+          <Popup>Captain's Live Location</Popup>
         </Marker>
       </MapContainer>
     ) : (

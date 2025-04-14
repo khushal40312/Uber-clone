@@ -27,32 +27,58 @@ module.exports.getAddressCoordinate = async (address) => {
     }
 };
 module.exports.getDistanceTime = async (origin, destination) => {
-
     if (!origin || !destination) {
-        throw new Error('Origin and destination are required')
+        throw new Error('Origin and destination are required');
     }
-    const apiKey = process.env.GOOGLE_MAPS_API;
-    const url = `https://maps.gomaps.pro/maps/api/distancematrix/json?origins=${encodeURIComponent(origin)}&destinations=${encodeURIComponent(destination)}&key=${apiKey}`
 
+    const apiKey = process.env.GOOGLE_MAPS_API;
+
+    const data = JSON.stringify({
+        origin: { address: origin },
+        destination: { address: destination }
+    });
+
+    const config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'https://routes.gomaps.pro/directions/v2:computeRoutes',
+        headers: {
+
+            'Content-Type': 'application/json',
+            'X-Goog-Api-Key': apiKey
+        },
+        data: data
+    };
 
     try {
-        const response = await axios.get(url);
-        if (response.data.status === 'OK') {
+        const response = await axios(config);
+        
+        const leg = response.data.routes[0].legs[0];
 
-            if (response.data.rows[0].elements[0].status === 'ZERO_RESULTS') {
-                throw new Error('No routes found');
-            }
+        const legStart = leg.startLocation.latLng;
+        const legEnd = leg.endLocation.latLng;
+        const legDistance = leg.distanceMeters;
+        const duration = Number(leg.duration.split("s")[0]);
 
-            return response.data.rows[0].elements[0];
-        } else {
-            throw new Error('Unable to fetch distance and time');
-        }
 
-    } catch (err) {
-        console.error(err);
-        throw err;
+
+
+
+        return {
+            leg: {
+                start: legStart,
+                end: legEnd,
+                distanceMeters: legDistance,
+                duration
+
+            },
+
+        };
+    } catch (error) {
+        console.error("Error fetching route data:", error.message);
+        throw error;
     }
-}
+};
 module.exports.getAutoCompleteSuggestions = async (input) => {
     if (!input) {
 
@@ -60,11 +86,13 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
     }
 
     const apiKey = process.env.GOOGLE_MAPS_API;
+   
     const url = `https://maps.gomaps.pro/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&key=${apiKey}`;
 
 
     try {
         const response = await axios.get(url);
+        
         if (response.data.status === 'OK') {
 
             return response.data.predictions
@@ -85,8 +113,6 @@ module.exports.getCaptainsInTheRadius = async (lat, lng, radius) => {
         }
     });
 
-    console.log("Found captains:", captains);
+    // console.log("Found captains:", captains);
     return captains;
 };
-
-
