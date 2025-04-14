@@ -16,12 +16,12 @@ Welcome to **Day 1** of my **#100DaysOfCode** journey! 🚀
 
 ## 🔐 Routes Implemented
 
-| Method | Route         | Description          |
-|--------|---------------|----------------------|
-| POST   | `/register`   | Register a new user  |
-| POST   | `/login`      | Login existing user  |
-| GET    | `/profile`    | Get user profile     |
-| GET    | `/logout`     | Logout user          |
+| Method | Route       | Description         |
+| ------ | ----------- | ------------------- |
+| POST   | `/register` | Register a new user |
+| POST   | `/login`    | Login existing user |
+| GET    | `/profile`  | Get user profile    |
+| GET    | `/logout`   | Logout user         |
 
 ## 🛠️ Tech Stack
 
@@ -41,7 +41,6 @@ Welcome to **Day 1** of my **#100DaysOfCode** journey! 🚀
 ---
 
 📅 More updates coming soon as I continue this 100-day journey!
-
 
 # Day 2 – Captain Module (Driver Auth)
 
@@ -73,12 +72,12 @@ Welcome to **Day 2** of my **#100DaysOfCode** challenge! 🚀
 
 ## 🔐 Captain Routes
 
-| Method | Route         | Description                |
-|--------|---------------|----------------------------|
-| POST   | `/captain/register` | Register a new captain      |
-| POST   | `/captain/login`    | Login existing captain      |
-| GET    | `/captain/profile`  | Get captain's profile       |
-| GET    | `/captain/logout`   | Logout the captain          |
+| Method | Route               | Description            |
+| ------ | ------------------- | ---------------------- |
+| POST   | `/captain/register` | Register a new captain |
+| POST   | `/captain/login`    | Login existing captain |
+| GET    | `/captain/profile`  | Get captain's profile  |
+| GET    | `/captain/logout`   | Logout the captain     |
 
 ## 🛠️ Tech Stack
 
@@ -99,6 +98,7 @@ Welcome to **Day 2** of my **#100DaysOfCode** challenge! 🚀
 ---
 
 📅 On to Day 3 tomorrow! Thinking about ride requests or captain location updates next.
+
 # Day 3 – Location & Maps Integration (Uber Clone Backend)
 
 **Day 3** of my #100DaysOfCode challenge is done ✅  
@@ -117,11 +117,11 @@ Added core map functionality to power ride discovery, ETA calculations, and auto
 
 ## ✨ API Endpoints
 
-| Method | Route                      | Description                             |
-|--------|----------------------------|-----------------------------------------|
-| GET    | `/map/get-coordinates`     | Get lat/lng from an address             |
-| GET    | `/map/get-distance-time`   | Get distance & duration between points  |
-| GET    | `/map/get-suggestion`      | Get autocomplete suggestions for input  |
+| Method | Route                    | Description                            |
+| ------ | ------------------------ | -------------------------------------- |
+| GET    | `/map/get-coordinates`   | Get lat/lng from an address            |
+| GET    | `/map/get-distance-time` | Get distance & duration between points |
+| GET    | `/map/get-suggestion`    | Get autocomplete suggestions for input |
 
 > All endpoints require user authentication.
 
@@ -138,6 +138,7 @@ Added core map functionality to power ride discovery, ETA calculations, and auto
 ```
 
 ## 🛠️ Tech Stack
+
 -axios for API calls
 
 -GoMaps API (Google Maps-compatible & free)
@@ -147,6 +148,7 @@ Added core map functionality to power ride discovery, ETA calculations, and auto
 -Custom controller & service layers
 
 ## 🧠 Lessons Learned
+
 -How to structure external API calls in a service layer
 
 -Validating query parameters with express-validator
@@ -156,8 +158,8 @@ Added core map functionality to power ride discovery, ETA calculations, and auto
 -Using alternatives to Google Maps that are cost-effective
 
 ---
-🔥 Maps are now part of the project! On to Day 4 next. Thinking about implementing ride requests or driver discovery…
 
+🔥 Maps are now part of the project! On to Day 4 next. Thinking about implementing ride requests or driver discovery…
 
 # Day 4 – Ride Management, Real-Time Updates & GPS Challenges (Uber Clone)
 
@@ -169,14 +171,15 @@ Today I wrapped up the **ride management flow** for my **Uber clone backend**, i
 - 🚗 **Ride Request Flow**
   - Users can create ride requests with pickup, destination, and vehicle type.
   - Available captains are notified in real-time using Socket.io.
-  
 - 🧮 **Fare Estimation**
+
   - Built a fare calculator based on:
     - Base fare
     - Per km and per minute rates (customized by vehicle type)
     - Distance & duration via map service
 
 - 📍 **Real-time Ride Lifecycle**
+
   - Confirming ride from captain side
   - Starting & ending rides with OTP verification
   - Periodic location updates (simulated via intervals)
@@ -185,13 +188,13 @@ Today I wrapped up the **ride management flow** for my **Uber clone backend**, i
 
 ## 🔁 Ride API Endpoints
 
-| Method | Route             | Description                            |
-|--------|------------------|----------------------------------------|
-| POST   | `/ride/create`    | User requests a ride                   |
-| GET    | `/ride/get-fare`  | Get fare estimate for a trip           |
-| POST   | `/ride/confirm`   | Captain confirms a ride                |
-| GET    | `/ride/start-ride`| Start ride with OTP verification       |
-| POST   | `/ride/end-ride`  | Mark a ride as completed               |
+| Method | Route              | Description                      |
+| ------ | ------------------ | -------------------------------- |
+| POST   | `/ride/create`     | User requests a ride             |
+| GET    | `/ride/get-fare`   | Get fare estimate for a trip     |
+| POST   | `/ride/confirm`    | Captain confirms a ride          |
+| GET    | `/ride/start-ride` | Start ride with OTP verification |
+| POST   | `/ride/end-ride`   | Mark a ride as completed         |
 
 ## 📡 Real-time Features (Socket.io)
 
@@ -220,7 +223,6 @@ Let’s gooo 🚀
 
 # 🚀 Day 5: Building the Uber Clone (Frontend)
 
-
 ### ✅ What I Did Today
 
 Today was all about building out the **user and captain authentication flow** in the frontend for my Uber Clone project. After setting up all necessary dependencies, I implemented the following key features using **React**:
@@ -228,22 +230,25 @@ Today was all about building out the **user and captain authentication flow** in
 ---
 
 ### 👨‍💻 User Flow
-- ✅ **User Signup** page  
-- ✅ **User Login** page  
-- ✅ **User Logout** functionality  
+
+- ✅ **User Signup** page
+- ✅ **User Login** page
+- ✅ **User Logout** functionality
 - ✅ Redirects based on auth token (user vs. captain)
 
 ---
 
 ### 🚖 Captain Flow
-- ✅ **Captain Login** page  
+
+- ✅ **Captain Login** page
 - ✅ **Captain Logout** functionality
-- ✅ **Captain Signup** page  
+- ✅ **Captain Signup** page
 - ✅ Separate home screen for Captain
 
 ---
 
 ### ⚙️ Tech Stack & Tools
+
 - React + React Router DOM
 - Axios for HTTP requests
 - Tailwind CSS for UI styling
@@ -253,8 +258,8 @@ Today was all about building out the **user and captain authentication flow** in
 
 ---
 
-
 ### 🔍 Next Up
+
 - Start designing the **Home** screens (for users and captains)
 - Implement **ride booking flow**
 - Add **map integrations** and **location tracking**
@@ -262,11 +267,13 @@ Today was all about building out the **user and captain authentication flow** in
 ---
 
 ### 🧠 Reflection
+
 Feeling good about today’s progress. Routing and auth handling are now solid foundations to build on. Separating flows for users and captains turned out cleaner than expected!
 
- # 🚀  Day 6: Uber Clone – User Home & Ride Flow
+# 🚀 Day 6: Uber Clone – User Home & Ride Flow
 
 #### ✅ What I Built Today:
+
 - Created the **User Home Page**
 - Integrated **Pickup & Destination Search** with live suggestions
 - Implemented:
@@ -281,6 +288,7 @@ Feeling good about today’s progress. Routing and auth handling are now solid f
 ---
 
 #### 🧠 Tech Stack Used:
+
 - React, Redux, GSAP, Axios, WebSocket
 - Debounced search suggestions using custom + lodash debounce
 - Geolocation API + conditional rendering based on permission
@@ -289,6 +297,7 @@ Feeling good about today’s progress. Routing and auth handling are now solid f
 ---
 
 #### 📍 Next Steps:
+
 - Start building the **Captain side Home**
 - Ride acceptance and navigation for captains
 - Real-time location sharing and ride updates
@@ -297,6 +306,7 @@ Feeling good about today’s progress. Routing and auth handling are now solid f
 
 📅 **Day 6 / 100**  
 🔨 Still building the Uber Clone, one screen at a time!
+
 # 🚀 Day 7 - Riding Page (User Side) Complete
 
 ## ✅ What I Did Today
@@ -345,6 +355,7 @@ Feeling good about today’s progress. Routing and auth handling are now solid f
 
 🧑‍💻 Progressing strong on the 100 Days of Code challenge.  
 💡 Focus for tomorrow: real-time updates from the **driver's end**.
+
 # 🚗 Day 8 - Captain Home Page Complete
 
 ## ✅ What I Did Today
@@ -404,3 +415,101 @@ Feeling good about today’s progress. Routing and auth handling are now solid f
 
 👨‍✈️ Captain side starting to shape up beautifully.  
 🚀 Day 9 we roll into the actual **ride in progress** flow.
+
+# 🛣️ Day 9 – Captain Riding Page & Route Tracking
+
+## ✅ What I Did Today
+
+- Built the **CaptainRiding** page.
+- Connected captain’s real-time location with WebSocket updates every 10s.
+- Integrated **react-leaflet** map with custom car and pin markers.
+- Drew live **route polyline** from pickup to destination using OpenRouteService.
+- Implemented smooth **Finish Ride Modal** with **GSAP** animation.
+- Added `toastify` for all error/success notifications.
+- Fetched and used accurate route data on both frontend & backend.
+
+## 🧠 Tech Stack
+
+- React
+- Redux
+- WebSocket
+- Axios
+- GSAP (`useGSAP`)
+- React Leaflet (OpenStreetMap)
+- Tailwind CSS
+- React Toastify
+
+## 📦 Components Overview
+
+- `CaptainRiding`: Main live tracking and ride UI
+- `MapComponent`: Renders route, captain location, and destination using leaflet
+- `FinishRide`: Modal to trigger ride completion
+- `Loading`: Fullscreen spinner for GPS loading
+
+## 🌍 Live Map Route (Frontend)
+
+- Used **OpenRouteService** API to fetch driving route.
+- Parsed GeoJSON data and plotted as polyline:
+
+```js
+const coords = data.features[0].geometry.coordinates.map((c) => [c[1], c[0]]);
+setRouteCoords(coords);
+```
+
+# Displayed:
+
+🚗 Captain: car icon (/car.png)
+
+📍 Destination: default leaflet marker
+
+🟦 Route: blue polyline
+
+---
+
+# 🔁 WebSocket Logic
+
+-join: Captain joins on page mount
+
+-location-update: Sent every 10 seconds with current lat/lng
+
+-Handled geolocation access error with toast fallback
+
+---
+
+# 🧾 Backend Update
+
+-Updated getDistanceTime() to call GoMaps API and return:
+
+-Start & End coordinates
+
+-Distance in meters
+
+-Duration in seconds
+
+---
+
+# 🛠️ Tech Stack & Tools
+
+-- React + Redux
+
+--GSAP (useGSAP) for smooth transitions
+
+--WebSocket (custom wrapper)
+
+--react-toastify for global toast messages
+
+--OpenRouteService for polyline route drawing
+
+--Google Maps API for ride info (backend)
+
+---
+
+# 🔮 Day 10 Goals (Planned)
+
+⛔ Add route protection for captain/user pages (auth guards)
+
+🛑 Prevent unauthorized route access
+
+✅ Show custom redirect if token not present or expired
+
+🔐 Improve logout & login redirection logic
