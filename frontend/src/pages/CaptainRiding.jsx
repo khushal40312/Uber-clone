@@ -61,8 +61,8 @@ const CaptainRiding = () => {
         <div className='  h-screen w-full relative '>
             <img className='w-13 absolute left-12 top-5 z-1' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
             <MapComponent
-                pickup={{ lat: position.lat, lng: position.lng }}
-                destination={{ lat: ride.end?.latitude, lng: ride.end?.longitude }}
+                pickup={{ lat: position?.lat, lng: position?.lng }}
+                destination={{ lat: ride?.end?.latitude, lng: ride?.end?.longitude }}
                 height={'90vh'}
             />
             {/* <LiveTracking height={"100vh"} position2={position} /> */}

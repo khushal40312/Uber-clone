@@ -20,6 +20,7 @@ import LiveLocation from '../components/LiveLocation';
 import { FaLocationDot, FaUser } from "react-icons/fa6";
 import { IoIosLogOut } from 'react-icons/io';
 import { toast } from 'react-toastify';
+import { FcMenu } from "react-icons/fc";
 const socket = WebSocket();
 
 const Home = () => {
@@ -371,6 +372,7 @@ const Home = () => {
         }
       </div>
       <Link to='/users/logout' className='fixed right-6 top-15 bg-white w-10 h-10 flex items-center justify-center rounded-xl'><IoIosLogOut size={15} /></Link>
+      <Link to='/users/profile' className='fixed right-6 top-27 bg-white  w-10 h-10 flex items-center justify-center rounded-xl'><FcMenu size={15} /></Link>
       <div ref={modalRef} className='rounded-xl bg-white absolute w-full p-3 transition-all duration-300 ease-in-out z-2 '>
         <span ref={modalDownButtonRef} className='top-3 right-3 absolute ' onClick={() => setModal(false)}><IoChevronDownSharp size={29} /></span>  <h4 className='text-lg font-semibold mb-2'>Find a trip</h4>
         <form onSubmit={(e) => submitHandler(e)} >

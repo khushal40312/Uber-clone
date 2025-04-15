@@ -513,3 +513,78 @@ setRouteCoords(coords);
 ✅ Show custom redirect if token not present or expired
 
 🔐 Improve logout & login redirection logic
+
+# 🧑‍💼 Day 10 – User Profile Page & Ride History
+
+## ✅ What I Did Today
+
+- Built the **UserProfile** page to show user details and ride history.
+- Fetched user profile and all rides from the backend using `axios`.
+- Filtered **completed rides** and displayed them dynamically.
+- Integrated **Redux** to store and manage user data.
+- Added **auth token check** to prevent fetching if user already loaded.
+- Designed profile with **Tailwind CSS** and icons from `react-icons`.
+- Linked back to home using a fixed **home button**.
+- Applied responsive and scrollable UI for ride listings.
+
+## 🧠 Tech Stack
+
+- React
+- Redux Toolkit
+- Axios
+- React Router
+- Tailwind CSS
+- React Icons
+
+## 📄 Component Overview
+
+- `UserProfile`:
+  - Fetches user data with token
+  - Displays full name and email
+  - Filters and shows number of completed rides
+  - Lists each ride with pickup → destination format
+
+## 🧾 Backend API
+
+**GET /users/profile**  
+Protected route using token  
+Returns:
+
+```json
+{
+  "user": {
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john@example.com"
+  },
+  "rides": [
+    {
+      "pickup": "123 Street, City",
+      "destination": "456 Avenue, City",
+      "status": "completed"
+    }
+  ]
+}
+```
+
+# 🖼️ UI Features
+
+👤 User Name: BsPersonRaisedHand
+
+📧 Email: FcGoogle
+
+✅ Completed rides: counted and displayed
+
+📍 Ride Summary: pickup → destination using FcMinus
+
+🏠 Home Button: floating top-left with AiFillHome
+
+---
+
+🔮 Day 11 Goals (Planned)
+🔐 Set up route protection for all user/captain pages
+🚫 Redirect unauthorized access to login
+🧹 Cleanup Redux logic and organize slices
+📱 Improve mobile responsiveness of all profile & map pages

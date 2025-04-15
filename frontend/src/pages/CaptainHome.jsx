@@ -128,7 +128,7 @@ const CaptainHome = () => {
   return (
     <div className='  h-screen w-full relative'>
       <img className='w-13 absolute left-12 top-5 z-1' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
-      <LiveTracking position2={position2} height={"100vh"} />
+      <LiveTracking position2={position2} height={"69vh"} />
       <Link to='/captains/logout' className='fixed right-2 top-2 bg-white w-10 h-10 flex items-center justify-center rounded-xl'><IoIosLogOut size={22} /></Link>
       <CaptainDetails />
       <RidePopup setRides={setRides} rides={rides} setConfirmRidePopup={setConfirmRidePopup} setAcceptedRide={setAcceptedRide} confirmRide={confirmRide} />

@@ -9,6 +9,7 @@ import CaptainLogout from './pages/CaptainLogout'
 import Riding from './pages/Riding'
 import CaptainRiding from './pages/CaptainRiding'
 import { ToastContainer } from 'react-toastify';
+import UserProfile from './pages/UserProfile'
 
 // Lazy-loaded components
 const Start = lazy(() => import('./pages/Start'))
@@ -53,6 +54,7 @@ const App = () => {
               <Route path='/home' element={<Home />} />
               <Route path='/riding' element={<Riding />} />
               <Route path='/users/logout' element={<UserLogout />} />
+              <Route path='/users/profile' element={<UserProfile/>}/>
 
             </>)}
         </Routes>
