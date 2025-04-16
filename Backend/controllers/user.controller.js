@@ -52,7 +52,7 @@ module.exports.loginUser = async (req, res, next) => {
 }
 module.exports.getUserProfile = async (req, res) => {
     try {
-      console.log(req.user);
+      
   
       // Fetch all rides where user is the owner (assuming you store user ID like this)
       const rides = await rideModel.find({ user: req.user._id });

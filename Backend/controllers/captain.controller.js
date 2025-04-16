@@ -2,7 +2,7 @@ const { validationResult } = require('express-validator');
 const captainModel = require('../models/captain.model')
 const captainService = require('../services/captain.service');
 const blacklistTokenModel = require('../models/blacklistToken.model');
-
+const rideModel = require('../models/ride.model')
 module.exports.registerCaptain = async (req, res) => {
 
     const error = validationResult(req)
@@ -59,7 +59,16 @@ module.exports.loginCaptian = async (req, res) => {
     res.cookie('token', token)
     res.status(200).json({ token, captain })
 }
-module.exports.getCaptainProfile = async (req, res) => { res.status(200).json(req.captain) }
+module.exports.getCaptainProfile = async (req, res) => {
+console.log("ex:",req.captain._id )
+    const rides = await rideModel.find({ captain: req.captain._id });
+
+    res.status(200).json({
+        captain: req.captain,
+        rides
+
+    })
+}
 module.exports.logoutCaptain = async (req, res, next) => {
 
     res.clearCookie('token')

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const UserInfo = createSlice({
     name: 'user',
-    initialState: {_id:"67daaeb2f3e202e6a7790a9f"},
+    initialState: [],
     reducers: {
         addUserInfo: (state, action) => {
 

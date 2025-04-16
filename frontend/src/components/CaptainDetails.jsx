@@ -7,17 +7,18 @@ import { UserAction } from '../store/userProfileSlice';
 import axios from 'axios';
 const CaptainDetails = () => {
   const captain = useSelector((store) => store.user)
-
+  const completedRides = captain?.rides?.filter((elem) => elem.status === 'completed')
+  const totalFare = completedRides?.reduce((sum, ride) => sum + ride.fare, 0);
   return (
     <div>
       <div className={"transition-all duration-600 ease-in-out  fixed z-10 bottom-0 bg-white py-5 rounded-lg w-full translate-y-0 "}>
         <div className='flex items-center justify-between py-2 px-4' >
           <div className=' flex items-center justify-between '>
             <img className='w-10 rounded-full' src="https://avatar.iran.liara.run/public/boy" alt="" />
-            <h2 className=' font-semibold m-2'>{captain.fullname?.firstname} {captain.fullname?.lastname}</h2>
+            <h2 className=' font-semibold m-2'>{captain.captain?.fullname?.firstname} {captain.captain?.fullname?.lastname}</h2>
           </div>
           <div>
-            <h2 className='text-xl font-semibold text-right'>$289.90</h2>
+            <h2 className='text-xl font-semibold text-right'>₹{totalFare}</h2>
             <p className='text-xs font-semibold text-[#808080] text-center'>Earned</p>
           </div>
         </div>

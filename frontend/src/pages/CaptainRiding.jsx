@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import WebSocket from '../Functions/WebSocket';
 import MapComponent from '../components/MapComponent';
 import { toast } from 'react-toastify';
+import Loading from '../components/Loading';
 const socket = WebSocket();
 
 const CaptainRiding = () => {
@@ -18,37 +19,37 @@ const CaptainRiding = () => {
     const ride = useSelector((store) => store.ride)
 
     useEffect(() => {
-        if (!captain._id) return; // Prevents connecting if captain 
+        if (!captain?.captain?._id) return; // Prevents connecting if captain 
         const socket = WebSocket();
 
         socket.emit('join', {
-            userId: captain._id,
+            userId: captain.captain._id,
             userType: 'captain'
         });
         const updateLocation = () => {
             navigator.geolocation.getCurrentPosition(
                 position => {
-                  setposition({ lat: position.coords.latitude, lng: position.coords.longitude });
-                  socket.emit('location-update', {
-                    userId: captain._id,
-                    location: {
-                      ltd: position.coords.latitude,
-                      lng: position.coords.longitude
-                    }
-                  });
+                    setposition({ lat: position.coords.latitude, lng: position.coords.longitude });
+                    socket.emit('location-update', {
+                        userId: captain.captain._id,
+                        location: {
+                            ltd: position.coords.latitude,
+                            lng: position.coords.longitude
+                        }
+                    });
                 },
                 error => {
-                  console.error("Geolocation error:", error);
-                  toast.error("Unable to access location. Please enable location services.");
+                    console.error("Geolocation error:", error);
+                    toast.error("Unable to access location. Please enable location services.");
                 }
-              );
-              
+            );
+
         }
         const updateInterval = setInterval(updateLocation, 10000)
 
 
-    }, [captain._id]); // Only re-run when captain._id changes
-
+    }, [captain?.captain?._id]); // Only re-run when captain._id changes
+   
     useGSAP(() => {
         gsap.to(finishRideModal.current, {
             y: openFinishRide ? 0 : "100%",
@@ -60,11 +61,13 @@ const CaptainRiding = () => {
     return (
         <div className='  h-screen w-full relative '>
             <img className='w-13 absolute left-12 top-5 z-1' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
-            <MapComponent
+            {position?.lat ? <MapComponent
                 pickup={{ lat: position?.lat, lng: position?.lng }}
                 destination={{ lat: ride?.end?.latitude, lng: ride?.end?.longitude }}
                 height={'90vh'}
-            />
+            /> : <div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-md z-50">
+                    <Loading />
+                  </div>}
             {/* <LiveTracking height={"100vh"} position2={position} /> */}
             <Link to='/captains/logout' className='fixed right-2 top-2 bg-white w-10 h-10 flex items-center justify-center rounded-xl'><IoIosLogOut size={22} /></Link>
             <div onClick={() => setFinishRide(true)} className={`rounded-t-xl bg-[#ffb400] absolute w-full p-2 transition-all duration-300 ease-in-out bottom-0 `} >

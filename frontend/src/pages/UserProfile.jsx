@@ -46,10 +46,12 @@ const UserProfile = () => {
                         <h1 className='text-2xl font-bold text-center ' > {completedRides?.length}</h1>
                         <h3 className='text-center text-sm text-green-600 '> Completed Rides </h3>
                     </div>
-                    {completedRides?.map(ride => <div key={ride._id} className='m-2 p-1 flex items-center rounded-xl border-2 w-full justify-center overflow-scroll '>
+                    <div  className='overflow-auto w-full h-80 '>
+                    {completedRides?.map(ride => <div key={ride._id} className='m-2 p-1 flex items-center rounded-xl border-2  justify-center  '>
 
                         <span>  {ride.pickup.split(',')[0] || ride.pickup.split(' ')[0]}</span> <FcMinus size={50} /> <span>  {ride?.destination.split(',')[0] || ride?.destination.split(' ')[0]}</span>
                     </div>)}
+                    </div>
                 </div>
             </div>
         </div>

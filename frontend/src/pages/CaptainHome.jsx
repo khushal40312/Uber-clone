@@ -29,7 +29,23 @@ const CaptainHome = () => {
   const [position2, setposition2] = useState([]);
 
   const confirmPanel = useRef(null)
-
+  useEffect(() => {
+    if (token&&captain.length===0 ) {
+        const fetchCaptainProfile = async () => {
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/captains/profile`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                dispatch(UserAction.addUserInfo(response.data))
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        fetchCaptainProfile()
+    }
+}, [])
   useEffect(() => {
 
     socket.on('new-ride', (data) => {
@@ -41,30 +57,13 @@ const CaptainHome = () => {
     })
     return () => socket.off("new-ride");
   })
+  
   useEffect(() => {
-    if (token) {
-      const fetchCaptainProfile = async () => {
-        try {
-          const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/captains/profile`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('cap-token')}`
-            }
-          })
-          dispatch(UserAction.addUserInfo(response.data))
-        } catch (error) {
-          toast.error("Failed to fetch profile. Please try again.");
-
-        }
-      }
-      fetchCaptainProfile()
-    }
-  }, [])
-  useEffect(() => {
-    if (!captain._id) return; // Prevents connecting if captain 
+    if (!captain?.captain?._id) return; // Prevents connecting if captain 
  
 
     socket.emit('join', {
-      userId: captain._id,
+      userId: captain.captain._id,
       userType: 'captain'
     });
     const updateLocation = () => {
@@ -72,7 +71,7 @@ const CaptainHome = () => {
         navigator.geolocation.getCurrentPosition(position => {
           setposition2({ lat: position.coords.latitude, lng: position.coords.longitude })
           socket.emit('update-location-captain', {
-            userId: captain._id,
+            userId: captain.captain._id,
             location: {
               ltd: position.coords.latitude,
               lng: position.coords.longitude
@@ -88,7 +87,7 @@ const CaptainHome = () => {
       socket.off("join");
       socket.off("update-location-captain");
     };
-  }, [captain._id]); // Only re-run when captain._id changes
+  }, [captain?.captain?._id]); // Only re-run when captain._id changes
 
   async function confirmRide(rideId) {
     setloading(true);
@@ -96,7 +95,7 @@ const CaptainHome = () => {
     await toast.promise(
       axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`, {
         rideId,
-        captainId: captain._id,
+        captainId: captain.captain._id,
       }, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('cap-token')}`

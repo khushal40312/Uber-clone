@@ -588,3 +588,45 @@ Returns:
 🚫 Redirect unauthorized access to login
 🧹 Cleanup Redux logic and organize slices
 📱 Improve mobile responsiveness of all profile & map pages
+# 🧑‍💼 Day 11 – Light Day Due to Health
+
+## 🤒 Context
+
+Today I was down with **fever and cold**, so I couldn’t manage to get much work done. Tried to take it easy and get some rest. However, I still managed to stay lightly connected with the project.
+
+## ✅ What I Did Today
+
+- ✅ **Reviewed existing `CaptainDetails` component** for any bugs or missing logic.
+- 🧪 **Tested backend API** response format with mock requests.
+- 🧼 Cleaned up and slightly optimized component layout using Tailwind spacing.
+- 💡 Started **planning microservices breakdown** for future refactor (User, Rides, Auth).
+- 🧠 Skimmed through articles and tutorials on **Node.js Microservices** (focused on theory).
+
+## 🚧 WIP / Planned for Tomorrow (If Feeling Better)
+
+- 🧩 Start breaking app into **core microservices**:
+  - User Service
+  - Ride Management
+  - Auth Gateway
+- 🔐 Implement **JWT Auth Middleware** in each service
+- 🌍 Set up **API Gateway** (possibly using Express or a lightweight proxy)
+- 🗃️ Dockerize initial services for containerized dev environment
+- 🔁 Setup inter-service communication (likely via REST, then shift to message broker later)
+
+## 🔮 Vision Moving Forward
+
+> If I feel better, the next few days will focus heavily on **back-end architecture** and restructuring the current monolith into a more scalable, service-driven model.
+
+## 🧠 Tech Stack (Upcoming)
+
+- Node.js (Express)
+- MongoDB
+- JWT Auth
+- Docker
+- NGINX (possibly)
+- React (frontend stays the same)
+- Redis / Message Broker (later stage)
+
+---
+
+🧘‍♂️ *Taking care of health first, tech second today.*

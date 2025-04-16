@@ -50,6 +50,8 @@ const Home = () => {
   const vehiclePanel = useRef(null)
   const confirmVehiclePanel = useRef(null)
   const lookDriverRef = useRef(null)
+  const locationRef = useRef(null)
+
   // const socket = WebSocket()
   const token = localStorage.getItem('token')
   const user = useSelector((store) => store.user)
@@ -146,14 +148,14 @@ const Home = () => {
 
   })
   useEffect(() => {
-    if (!user._id) return; // Prevents connecting if captain 
+    if (!user?.user?._id) return; // Prevents connecting if captain 
     const socket = WebSocket();
 
     socket.emit('join', {
-      userId: user._id,
+      userId: user.user._id,
       userType: 'user'
     })
-  }, [user._id])
+  }, [user?.user?._id])
   /** Memoize debouncedLocation & debouncedDestination fetch logic to avoid re-renders */
   useEffect(() => {
     fetchSuggestions(debouncedLocation, 'location');
@@ -214,7 +216,7 @@ const Home = () => {
   }
   async function createRide(location, destination, vehicleType) {
     setLoading3(true);
-  
+
     await toast.promise(
       axios.post(
         `${import.meta.env.VITE_BASE_URL}/rides/create`,
@@ -237,11 +239,11 @@ const Home = () => {
         },
       }
     ).then((res) => {
-      
+
       setcreatedRide(res.data);
     });
-    
-  
+
+
     setLoading3(false);
     setconfirmVmodal(false);
   }
@@ -309,12 +311,19 @@ const Home = () => {
       ease: "power2.out", // Optional: Easing effect
     });
   }, [lookDriverModal]);
+  useGSAP(() => {
+    gsap.to(locationRef.current, {
+      display: locationEnabled ? "none" : "flex",
+      duration: 0.5, // Optional: Smooth transition
+      ease: "power2.out", // Optional: Easing effect
+    });
+  }, [locationEnabled]);
   const requestLocation = () => {
     if (!navigator.geolocation) {
       console.error("Geolocation not supported");
       return;
     }
-  
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setposition3({
@@ -328,10 +337,10 @@ const Home = () => {
       }
     );
   };
-  
+
   useEffect(() => {
-    if (!user._id || !locationEnabled) return;
-  
+    if (!user?.user?._id || !locationEnabled) return;
+
     const updateLocation = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -343,27 +352,27 @@ const Home = () => {
           },
           (error) => {
             console.error("Location error:", error);
-              toast.error("Unable to access location. Please enable GPS.");
-            
-            
+            toast.error("Unable to access location. Please enable GPS.");
+
+
           }
         );
       }
     };
-  
+
     const updateInterval = setInterval(updateLocation, 5000);
     return () => clearInterval(updateInterval);
-  }, [user._id, locationEnabled]);
+  }, [user?.user?._id, locationEnabled]);
 
   return (
     <>
-   {!locationEnabled&& <div className="fixed inset-0 flex  flex-col items-center justify-center bg-black/30 backdrop-blur-md z-50">
+       <div ref={locationRef} className="fixed inset-0   flex-col items-center justify-center bg-black/30 backdrop-blur-md z-50">
 
-    <button className='p-3 bg-blue-500 font-semibold rounded-lg w-50 flex items-center justify-center gap-2 my-2' onClick={requestLocation}>
- <span className='my-2'><FaLocationDot/></span> {locationEnabled ? "Disable" : "Allow"} Location
-</button>
-<span className='text-black-400 text-xs'> if allow location doen't work then reload the page </span>
-    </div>}
+        <button className='p-3 bg-blue-500 font-semibold rounded-lg w-50 flex items-center justify-center gap-2 my-2' onClick={requestLocation}>
+          <span className='my-2'><FaLocationDot /></span> {locationEnabled ? "Disable" : "Allow"} Location
+        </button>
+        <span className='text-black-400 text-xs'> if allow location doen't work then reload the page </span>
+      </div>
       <div onClick={() => { if (openVehicleModal) setVehicleModal(false) }} className='    w-full  '>
         <img className='w-16 absolute right-5 top-5 z-1' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
         {["accepted", "ongoing"].includes(createdRide?.status) ?

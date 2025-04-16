@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import WebSocket from '../Functions/WebSocket';
 import MapComponent from '../components/MapComponent';
+import { toast } from 'react-toastify';
 
 const socket = WebSocket();
 
