@@ -1,14 +1,5 @@
-Backend/node_modules/
-Backend/.env
-frontend/.env
-Backend/captain/node_modules/
-Backend/user/node_modules/
-Backend/rides/node_modules/
-Backend/withoutMS/node_modules/
-Backend/captain/.env
-Backend/user/.env
-Backend/rides/.env
-Backend/withoutMS/.env
+# Ignore all node_modules folders
+**/node_modules/
 
-
-
+# Ignore all .env files
+**/.env
