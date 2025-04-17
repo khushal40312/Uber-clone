@@ -588,6 +588,7 @@ Returns:
 🚫 Redirect unauthorized access to login
 🧹 Cleanup Redux logic and organize slices
 📱 Improve mobile responsiveness of all profile & map pages
+
 # 🧑‍💼 Day 11 – Light Day Due to Health
 
 ## 🤒 Context
@@ -629,4 +630,94 @@ Today I was down with **fever and cold**, so I couldn’t manage to get much wor
 
 ---
 
-🧘‍♂️ *Taking care of health first, tech second today.*
+🧘‍♂️ _Taking care of health first, tech second today._
+
+# 🧑‍💼 Day 12 – Microservices Refactor Kickoff 🚀
+
+## 🛠️ Today's Focus
+
+Started the transition from a **monolithic backend** to a **microservices architecture**. Reviewed current folder structure and began laying out isolated services for each domain:
+
+- 👤 User Service
+- 🚗 Ride Service
+- 🧭 Captain Service
+- 🌐 Gateway Service (API Gateway)
+- 🧪 Auth Middleware (Planned)
+
+## ✅ What I Did Today
+
+- 🧩 Reviewed existing backend structure and identified **modular domains**.
+- 📁 Reorganized code into **dedicated microservice folders** (`user`, `rides`, `captain`, `gateway`).
+- 🔗 Configured a basic **Express-based API Gateway** using `express-http-proxy`:
+
+  ```js
+  const express = require("express");
+  const expressProxy = require("express-http-proxy");
+
+  const app = express();
+
+  app.use("/user", expressProxy("http://localhost:3001"));
+  app.use("/captain", expressProxy("http://localhost:3002"));
+  app.use("/ride", expressProxy("http://localhost:3003"));
+
+  app.listen(3000, () => {
+    console.log("Gateway server listening on port 3000");
+  });
+  ```
+
+- 🔄 Verified routing from gateway to each service.
+- 📦 Introduced structure for future **Dockerization**.
+- 📚 Continued reading up on **Node.js microservice communication patterns**.
+
+## 🧠 Tech Stack (Active)
+
+- Node.js (Express)
+- Axios
+- express-http-proxy
+- React (frontend)
+- Redux Toolkit
+- Tailwind CSS
+
+## 📦 Folder Structure Snapshot
+
+```plaintext
+UBER/
+├── Backend/
+│   ├── captain/     # Captain microservice
+│   ├── gateway/     # API Gateway
+│   ├── rides/       # Ride management microservice
+│   ├── user/        # User microservice
+│   ├── withoutMS/   # Legacy monolith code (for reference)
+├── frontend/        # React frontend
+```
+
+## 📈 Microservice Goals
+
+| Service   | Description                           | Status         |
+| --------- | ------------------------------------- | -------------- |
+| `user`    | Handles user profile, auth, and data  | 🟡 In Progress |
+| `captain` | Manages captain info and availability | 🔜 Planned     |
+| `rides`   | Controls ride logic and history       | 🔜 Planned     |
+| `gateway` | Unified entry point for APIs          | ✅ Basic Setup |
+| `auth`    | JWT-based token validation middleware | 🔜 Tomorrow    |
+
+---
+
+## 🤒 Health Check-in
+
+Feeling **better than yesterday**, so pushed ahead with a productive backend session. Still pacing myself to avoid burnout.
+
+---
+
+## 🔮 Tomorrow's Goals (Day 13)
+
+- 🔐 Add **JWT auth middleware** to services
+- 🧪 Implement token verification in Gateway
+- 🌉 Explore message broker setup (RabbitMQ or Redis pub/sub)
+- 📱 Start syncing frontend with new microservice APIs
+
+> “Monolith to Microservices isn’t just about structure — it’s about scaling _intelligently_.” — _Me, probably 😄_
+
+---
+
+🧘‍♂️ _Small wins, strong systems, sustainable progress._
