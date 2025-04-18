@@ -769,7 +769,7 @@ module.exports = async function (req, res, next) {
 🔁 RPC message pattern
 
 🧩 Environment-based configs (.env)
-
+```plaintext
 Backend/
 ├── user/
 │   └── rpc/
@@ -784,7 +784,7 @@ Backend/
 │   │   └── auth.js
 │   └── rpc/
 │       └── getMiddleware.js
-
+```
 ---
 
 💡 Takeaways
