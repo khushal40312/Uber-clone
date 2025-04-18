@@ -2,7 +2,7 @@ const { validationResult } = require('express-validator');
 const userModel = require('../models/user.model');
 const userService = require('../services/user.service');
 const blacklistTokenModel = require('../models/blacklistToken.model');
-// const rideModel = require('../../models/ride.model')
+const getUserRides = require('../services/rpc/getUserRides')
 
 
 module.exports.registerUser = async (req, res, next) => {
@@ -53,25 +53,17 @@ module.exports.loginUser = async (req, res, next) => {
 }
 module.exports.getUserProfile = async (req, res) => {
     try {
-      
+      const rides = await getUserRides(req.user._id.toString());
   
-      // Fetch all rides where user is the owner (assuming you store user ID like this)
-      const rides = await rideModel.find({ user: req.user._id });
-  
-      
-  
-      // Send back profile + rides
       res.status(200).json({
         user: req.user,
-        rides: rides
+        rides: rides,
       });
-  
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Something went wrong' });
     }
   };
-  
 module.exports.logoutUser = async (req, res, next) => {
 
     res.clearCookie('token')

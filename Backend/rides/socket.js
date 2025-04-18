@@ -1,11 +1,12 @@
 const socketIo = require('socket.io');
-const userModel = require('./models/user.model')
-const captainModel = require('./models/captain.model')
+const socketUpdate = require('./services/socketupdate');
+
 
 let io;
 const lastUpdate = {};
 function initializeSocket(server) {
     io = socketIo(server, {
+        
         cors: {
             origin: '*',
             methods: ['GET', 'POST']
@@ -18,9 +19,8 @@ function initializeSocket(server) {
         socket.on('join', async (data) => {
             const { userId, userType } = data;
             if (userType === 'user') {
-                await userModel.findByIdAndUpdate(userId, {
-                    socketId: socket.id
-                })
+                await socketUpdate(userId,socket.id)
+               
             } else if (userType === 'captain') {
                 await captainModel.findByIdAndUpdate(userId, {
                     socketId: socket.id

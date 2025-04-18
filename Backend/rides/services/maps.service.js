@@ -1,6 +1,7 @@
 
 const axios = require('axios');
-const captainModel = require('../models/captain.model')
+const getCaptainNear = require('./getCaptain');
+const captainModel = ''
 module.exports.getAddressCoordinate = async (address) => {
     const apiKey = process.env.GOOGLE_MAPS_API;
     const url = `https://maps.gomaps.pro/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`
@@ -11,7 +12,7 @@ module.exports.getAddressCoordinate = async (address) => {
 
         if (response.data.status === 'OK') {
             const results = response.data.results;
-
+console.log(results)
             if (results.length > 0 && results[0].geometry && results[0].geometry.location) {
                 const { lat, lng } = results[0].geometry.location;
                 return { lat, lng };
@@ -104,15 +105,9 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
 }
 module.exports.getCaptainsInTheRadius = async (lat, lng, radius) => {
     console.log(`Searching within radius ${radius}km at:`, { lat, lng });
+    const captains = await getCaptainNear({lat,lng,radius})
+  
 
-    const captains = await captainModel.find({
-        location: {
-            $geoWithin: {
-                $centerSphere: [[lat, lng], radius / 6371]
-            }
-        }
-    });
-
-    // console.log("Found captains:", captains);
+    console.log("Found captains:", captains);
     return captains;
 };

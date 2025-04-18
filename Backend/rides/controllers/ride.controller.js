@@ -4,6 +4,7 @@ const rideService = require('../services/ride.service')
 const mapService = require('../services/maps.service');
 const { setMessageToSocketId } = require('../socket');
 const rideModel = require('../models/ride.model');
+const getUser = require('../services/getUser');
 
 
 
@@ -18,22 +19,25 @@ module.exports.createRide = async (req, res, next) => {
     try {
 
         const ride = await rideService.createRide({ user: req.user._id, pickup, destination, vehicleType });
-      
+
         res.status(201).json(ride);
 
         const pickupCoordinates = await mapService.getAddressCoordinate(pickup)
         const captainsInRadius = await mapService.getCaptainsInTheRadius(pickupCoordinates.lat, pickupCoordinates.lng, 1000)
-        const rideWithUser = await rideModel.findOne({ _id: ride._id }).populate("user")
+        console.log(ride.user)
+        const userInfo = await getUser(ride.user)
+        // console.log(pickupCoordinates)
+        // console.log(captainsInRadius)
+        // console.log(rideWithUser)
+console.log({user:userInfo,ride})
+        // ride.otp = ''
+        // captainsInRadius.map(async captain => {
+        //     setMessageToSocketId(captain.socketId, {
+        //         event: 'new-ride',
+        //         data: {user:userInfo,ride},
+        //     })
 
-
-        ride.otp = ''
-        captainsInRadius.map(async captain => {
-            setMessageToSocketId(captain.socketId, {
-                event: 'new-ride',
-                data: rideWithUser,
-            })
-
-        })
+        // })
     } catch (err) {
         return res.status(500).json({ messsage: err.message });
 
@@ -95,7 +99,7 @@ module.exports.confirmRide = async (req, res) => {
         return res.status(200).json(ride);
     } catch (err) {
 
-       
+
         return res.status(500).json({ message: err.message });
     }
 }
@@ -111,7 +115,7 @@ module.exports.startRide = async (req, res) => {
 
     try {
         const ride = await rideService.startRide({ rideId, otp, captain: req.captain });
-        
+
         setMessageToSocketId(ride.user.socketId, {
             event: 'ride-started',
             data: ride

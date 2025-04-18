@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const captainModel = require('../models/captain.model')
 const captainService = require('../services/captain.service');
 const blacklistTokenModel = require('../models/blacklistToken.model');
+const getCaptainRides = require('../services/rpc/getCaptainRides');
 
 module.exports.registerCaptain = async (req, res) => {
 
@@ -60,8 +61,8 @@ module.exports.loginCaptian = async (req, res) => {
     res.status(200).json({ token, captain })
 }
 module.exports.getCaptainProfile = async (req, res) => {
-console.log("ex:",req.captain._id )
-    const rides = await rideModel.find({ captain: req.captain._id });
+
+    const rides = await getCaptainRides( req.captain._id );
 
     res.status(200).json({
         captain: req.captain,

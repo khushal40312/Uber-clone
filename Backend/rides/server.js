@@ -1,6 +1,7 @@
 const http = require('http')
 const app = require("./app")
 const { initializeSocket } = require('./socket')
+const startRideRPCServer = require('./services/ride.Listener')
 const port = process.env.PORT||3003 
 
 
@@ -8,7 +9,7 @@ const server = http.createServer(app)
 
 
 initializeSocket(server)
-
+startRideRPCServer()
 server.listen(port, () => {
 
 
