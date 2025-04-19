@@ -1,29 +1,38 @@
 const socketIo = require('socket.io');
-const socketUpdate = require('./services/socketupdate');
+
+const userSocketUpdate = require('./services/rpc/userSocketupdate');
+const captainSocketUpdate = require('./services/rpc/captainSocketUpdate');
 
 
 let io;
 const lastUpdate = {};
 function initializeSocket(server) {
     io = socketIo(server, {
-        
+        path: '/rides/socket.io',
         cors: {
-            origin: '*',
-            methods: ['GET', 'POST']
+            origin: ['http://localhost:5173'], // Vite dev server
+            methods: ['GET', 'POST'],
+            credentials: true
         }
+
     });
 
-    io.on('connection', (socket) => {
-        console.log(`Client connected: ${socket.id}`);
+    io.of('/rides').on('connection', (socket) => {
+        console.log(`Client connected to /rides namespace with socket ${socket.id}`);
 
         socket.on('join', async (data) => {
             const { userId, userType } = data;
             if (userType === 'user') {
-                await socketUpdate(userId,socket.id)
-               
-            } else if (userType === 'captain') {
-                await captainModel.findByIdAndUpdate(userId, {
+                await userSocketUpdate({
+                    userId,
                     socketId: socket.id
+                })
+
+            } else if (userType === 'captain') {
+                await captainSocketUpdate({
+                    userId,
+                    socketId: socket.id,
+                    type: 'socket-update'
                 })
             }
 
@@ -47,15 +56,15 @@ function initializeSocket(server) {
                 const remainingTime = delay - (currentTime - lastUpdatedTime);
                 return socket.emit('error', { message: `Please wait ${Math.ceil(remainingTime / 1000)} seconds before updating the location again` });
             }
-
-            // Update the location in the database
-             await captainModel.findByIdAndUpdate(userId, {
+            await captainSocketUpdate({
+                userId,
                 location: {
                     ltd: location.ltd,
                     lng: location.lng
-                }
-            });
-           
+                },
+                type: 'location-update'
+            })
+
             // Update the last update time for the user
             lastUpdate[userId] = currentTime;
         });

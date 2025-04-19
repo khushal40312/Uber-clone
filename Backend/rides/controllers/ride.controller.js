@@ -4,7 +4,7 @@ const rideService = require('../services/ride.service')
 const mapService = require('../services/maps.service');
 const { setMessageToSocketId } = require('../socket');
 const rideModel = require('../models/ride.model');
-const getUser = require('../services/getUser');
+const getUser = require('../services/rpc/getUser');
 
 
 
@@ -26,18 +26,15 @@ module.exports.createRide = async (req, res, next) => {
         const captainsInRadius = await mapService.getCaptainsInTheRadius(pickupCoordinates.lat, pickupCoordinates.lng, 1000)
         console.log(ride.user)
         const userInfo = await getUser(ride.user)
-        // console.log(pickupCoordinates)
-        // console.log(captainsInRadius)
-        // console.log(rideWithUser)
-console.log({user:userInfo,ride})
-        // ride.otp = ''
-        // captainsInRadius.map(async captain => {
-        //     setMessageToSocketId(captain.socketId, {
-        //         event: 'new-ride',
-        //         data: {user:userInfo,ride},
-        //     })
 
-        // })
+        ride.otp = ''
+        captainsInRadius.map(async captain => {
+            setMessageToSocketId(captain.socketId, {
+                event: 'new-ride',
+                data: { user: userInfo, ride },
+            })
+
+        })
     } catch (err) {
         return res.status(500).json({ messsage: err.message });
 

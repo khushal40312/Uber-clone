@@ -1,6 +1,6 @@
 const userModel = ''
 const jwt = require('jsonwebtoken');
-const getMiddleware = require('../services/getMiddleware');
+const getMiddleware = require('../services/rpc/getMiddleware');
 const blacklistTokenModel = ''
 const captainModel = ''
 

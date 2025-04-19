@@ -721,3 +721,189 @@ Feeling **better than yesterday**, so pushed ahead with a productive backend ses
 ---
 
 🧘‍♂️ _Small wins, strong systems, sustainable progress._
+
+# 🚧 Day 13 – Cross-Service Messaging & Auth Middleware Magic ✨
+
+## 🧠 Today's Focus
+
+Dove into **RabbitMQ integration** to enable **cross-service communication** and **decoupled architecture**. Also kicked off the **JWT Auth Middleware**, enabling secure user validation across services without tight coupling. The microservice transition is really taking shape now! 💪
+
+---
+
+## ✅ What I Did Today
+
+- 📨 Integrated **RabbitMQ Cloud** (via `amqplib`) for internal service communication.
+- 🔄 Set up **RPC-style request/reply** pattern for:
+
+  - 🔍 `getCaptainNear(payload)` → triggered by ride service to fetch nearby captains.
+  - 🔐 `getMiddleware(token)` → validates JWT token by sending it to user service via queue.
+
+- 🧱 Abstracted middleware logic so the **API Gateway** can verify tokens asynchronously without needing direct DB access.
+
+### 🔐 Auth Middleware Sample (via RabbitMQ)
+
+```js
+// gateway/middleware/auth.js
+const getMiddleware = require('../rpc/getMiddleware');
+
+module.exports = async function (req, res, next) {
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) return res.status(401).json({ error: "Unauthorized" });
+
+  try {
+    const user = await getMiddleware(token); // via RabbitMQ
+    req.user = user;
+    next();
+  } catch (err) {
+    console.error("Auth error:", err);
+    res.status(403).json({ error: "Forbidden" });
+  }
+};
+🧹 Cleaned and modularized message queue logic.
+
+🌐 Updated API Gateway routing to use new middleware.
+🧰 Tech Stack Additions
+🐇 RabbitMQ (amqplib)
+
+🔁 RPC message pattern
+
+🧩 Environment-based configs (.env)
+
+Backend/
+├── user/
+│   └── rpc/
+│       ├── getCaptainNear.js
+│       └── getUserByToken.js
+├── rides/
+│   └── rpc/
+├── captain/
+│   └── rpc/
+├── gateway/
+│   ├── middleware/
+│   │   └── auth.js
+│   └── rpc/
+│       └── getMiddleware.js
+
+---
+
+💡 Takeaways
+Microservices aren't just separate servers — they're independent minds working in sync.
+Messaging queues = the nervous system. 🧠⚡
+
+RabbitMQ unlocked true decoupling — services don’t need direct access to each other.
+
+Middleware via messaging = smart gateway, minimal coupling.
+
+Architecture is scaling smoothly with each service extracted.
+
+---
+
+🔮 Tomorrow's Goals (Day 14)
+🧪 Expand JWT auth with role-based access (user, captain)
+
+🧭 Finish captain service logic + DB models
+
+🐳 Dockerize all services and gateway
+
+🔗 Hook frontend with new API Gateway endpoints
+
+🛤️ Microservice highway is open. Building traffic signals, not roadblocks.
+Let’s keep pushing — sustainably and smart. 🧘‍♂️
+```
+
+# 🚧 Day 14 – RPC Listeners, Real-Time Updates & WebSocket Gateway Magic 🧙‍♂️✨
+
+## 🧠 Today's Focus
+
+Connected all the dots with **RabbitMQ-based RPC listeners**, enabling cross-service communication between **Users**, **Captains**, and **Rides**. Also set up **WebSocket proxying** in the API Gateway, powering real-time updates like socket ID changes and live captain location sharing. It's all talking to each other now — asynchronously, cleanly, and magically. 🛸
+
+---
+
+## ✅ What I Did Today
+
+- 🔁 Created **RPC Listeners** to handle:
+  - 🧭 `get_captain` → fetch captains near a geo-location.
+  - 🧠 `get_user_rides` → fetch captain's past rides.
+  - 🛰️ `get_captainSocketUpdate` → update captain socket ID or location.
+
+- 📡 Built RPC Clients to request data from other services via queues:
+  - `getCaptainRides(userId)`
+  - `getUser(id)`
+  - `getCaptain(id)`
+  
+- 📬 Refactored all listeners to use `amqplib` and keep queues **durable = false** (temporary, dev-friendly).
+
+---
+
+## 🌐 API Gateway Upgraded
+
+- ✨ Added support for **WebSocket Proxying**:
+  ```js
+  server.on('upgrade', (req, socket, head) => {
+      if (req.url.startsWith('/rides/socket.io')) {
+          proxy.ws(req, socket, head, { target: 'http://localhost:3003' });
+      }
+  });```
+🔁 Enabled /rides service to handle both REST and WebSocket traffic via http-proxy-middleware + http-proxy.
+
+🔐 Gateway auth middleware still flows through getMiddleware.js over RabbitMQ (from Day 13).
+
+---
+#📁 Folder Structure Highlights:
+```plaintext
+services/
+├── rpc/
+│   ├── getCaptain.js
+│   ├── getUser.js
+│   ├── getMiddleware.js
+│   └── getCaptainRides.js
+├── rpc_listeners/
+│   ├── captain.Listener.js
+│   ├── ride.Listener.js
+│   └── socketUpdateListener.js
+
+gateway/
+├── middleware/
+│   └── auth.js
+└── index.js (WebSocket proxy setup)
+```
+#🧰 Tech Stack Additions
+
+- 🐇 RabbitMQ (continued)
+
+- 🧠 amqplib RPC listeners + consumers
+
+- 🛰️ WebSocket proxying in Express Gateway
+
+- 🧭 Geo-based filtering via MongoDB $geoWithin
+
+- 📦 Environment-based setup via .env
+
+---
+
+💡 Takeaways
+
+- RabbitMQ is now the central nervous system for real-time communication 🔌
+
+- Listener design keeps services decoupled and independently testable
+
+- WebSocket proxying in a gateway = total control over live updates 🔥
+
+- We’re now streaming updates & fetching data without direct API calls – asynchronously and scalably.
+
+---
+🔮 Tomorrow's Goals (Day 15)
+🛳️ Build a Ride Booking Flow with full socket integration
+
+🧪 Unit test all RPC calls and listeners
+
+🧩 Add offline fallback logic for captain availability
+
+🐳 Continue Dockerizing services
+
+📲 Hook WebSocket client to see captains moving in real-time
+
+Microservices aren’t just talking — they’re thinking together now. Let’s keep scaling, cleanly. 🧠🚦
+
+
