@@ -8,8 +8,11 @@ const server = http.createServer(app);
 
 // For normal REST routes
 app.use('/users', createProxyMiddleware({ target: 'http://localhost:3001', changeOrigin: true }));
-app.use('/captain', createProxyMiddleware({ target: 'http://localhost:3002', changeOrigin: true }));
-app.use('/rides', createProxyMiddleware({ target: 'http://localhost:3003', changeOrigin: true, ws: true })); // Note ws: true
+app.use('/captains', createProxyMiddleware({ target: 'http://localhost:3002', changeOrigin: true }));
+app.use('/rides/maps', createProxyMiddleware({ target: 'http://localhost:3003/maps', changeOrigin: true }));
+
+
+app.use('/rides', createProxyMiddleware({ target: 'http://localhost:3003', changeOrigin: true })); // Note ws: true
 
 // For WebSocket manually
 const proxy = httpProxy.createProxyServer({ ws: true });

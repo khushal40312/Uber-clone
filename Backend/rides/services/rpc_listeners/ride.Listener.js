@@ -17,7 +17,7 @@ async function startRideRPCServer() {
       const { role, id } = JSON.parse(msg.content.toString());
 
       let rides;
-
+console.log(id)
       if (role === 'user') {
         rides = await rideModel.find({ user: id });
       } else if (role === 'captain') {

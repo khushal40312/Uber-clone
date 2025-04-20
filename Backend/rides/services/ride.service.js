@@ -1,6 +1,8 @@
 const rideModel = require('../models/ride.model')
 const mapService = require('./maps.service')
 const crypto = require('crypto');
+const getCaptainNear = require('./rpc/getCaptain');
+const getUser = require('./rpc/getUser');
 async function getFare(pickup, destination) {
 
     if (!pickup || !destination) {
@@ -72,7 +74,7 @@ module.exports.createRide = async ({ user, pickup, destination, vehicleType }) =
     return ride;
 }
 module.exports.confirmRide = async ({
-    rideId, captain
+    rideId, captaiN
 }) => {
     if (!rideId) {
         throw new Error('Ride id is required');
@@ -82,29 +84,33 @@ module.exports.confirmRide = async ({
         _id: rideId
     }, {
         status: 'accepted',
-        captain: captain._id
+        captain: captaiN._id
     })
 
     const ride = await rideModel.findOne({
         _id: rideId
-    }).populate('user').populate('captain').select('+otp');
+    }).select('+otp')
+    const userInfo = await getUser(ride.user)
+    const captain = await getCaptainNear({ id: captaiN._id, type: "get-captain-info" })
+
 
     if (!ride) {
         throw new Error('Ride not found');
     }
 
-    return ride;
+    return { ride, user: userInfo, captain };
 
 }
-module.exports.startRide = async ({ rideId, otp, captain }) => {
+module.exports.startRide = async ({ rideId, otp, captaiN }) => {
     if (!rideId || !otp) {
         throw new Error('Ride id and OTP are required');
     }
 
     const ride = await rideModel.findOne({
         _id: rideId
-    }).populate('user').populate('captain').select('+otp');
-
+    }).select('+otp')
+    const userInfo = await getUser(ride.user)
+    const captain = await getCaptainNear({ id: captaiN._id, type: "get-captain-info" })
     if (!ride) {
         throw new Error('Ride not found');
     }
@@ -123,18 +129,22 @@ module.exports.startRide = async ({ rideId, otp, captain }) => {
         status: 'ongoing'
     })
 
-    return ride;
+    return { ride, user: userInfo, captain };
+
 }
-module.exports.endRide = async ({ rideId, captain }) => {
+module.exports.endRide = async ({ rideId, captaiN }) => {
     if (!rideId) {
         throw new Error('Ride id is required');
     }
 
+ 
     const ride = await rideModel.findOne({
         _id: rideId,
-        captain: captain._id
-    }).populate('user').populate('captain').select('+otp');
+        captain: captaiN._id
 
+    }).select('+otp')
+    const userInfo = await getUser(ride.user)
+    const captain = await getCaptainNear({ id: captaiN._id, type: "get-captain-info" })
     if (!ride) {
         throw new Error('Ride not found');
     }
@@ -149,5 +159,6 @@ module.exports.endRide = async ({ rideId, captain }) => {
         status: 'completed'
     })
 
-    return ride;
+    return { ride, user: userInfo, captain };
+
 }

@@ -5,6 +5,7 @@ const mapService = require('../services/maps.service');
 const { setMessageToSocketId } = require('../socket');
 const rideModel = require('../models/ride.model');
 const getUser = require('../services/rpc/getUser');
+const getCaptainNear = require('../services/rpc/getCaptain');
 
 
 
@@ -24,14 +25,14 @@ module.exports.createRide = async (req, res, next) => {
 
         const pickupCoordinates = await mapService.getAddressCoordinate(pickup)
         const captainsInRadius = await mapService.getCaptainsInTheRadius(pickupCoordinates.lat, pickupCoordinates.lng, 1000)
-        console.log(ride.user)
+      
         const userInfo = await getUser(ride.user)
 
         ride.otp = ''
         captainsInRadius.map(async captain => {
             setMessageToSocketId(captain.socketId, {
                 event: 'new-ride',
-                data: { user: userInfo, ride },
+                data:  {user: userInfo, ride} 
             })
 
         })
@@ -72,7 +73,7 @@ module.exports.confirmRide = async (req, res) => {
     const { rideId } = req.body;
 
     try {
-        const ride = await rideService.confirmRide({ rideId, captain: req.captain });
+        const ride = await rideService.confirmRide({ rideId, captaiN: req.captain });
 
         setMessageToSocketId(ride.user.socketId, {
             event: 'ride-confirmed',
@@ -81,12 +82,14 @@ module.exports.confirmRide = async (req, res) => {
         // Start sending location updates every 10 minutes
         locationInterval[rideId] = setInterval(async () => {
             try {
-                const updatedRide = await rideModel.findById(rideId).populate("captain");
+                const updatedRide = await rideModel.findById(rideId)
+
+                const captain = await getCaptainNear({ id: updatedRide.captain._id, type: "get-captain-info" })
                 setMessageToSocketId(ride.user.socketId, {
                     event: 'location-update',
                     data: {
-                        lat: updatedRide.captain.location.ltd,
-                        lng: updatedRide.captain.location.lng
+                        lat: captain.location.ltd,
+                        lng: captain.location.lng
                     }
                 });
             } catch (err) {
@@ -111,7 +114,7 @@ module.exports.startRide = async (req, res) => {
     const { rideId, otp } = req.query;
 
     try {
-        const ride = await rideService.startRide({ rideId, otp, captain: req.captain });
+        const ride = await rideService.startRide({ rideId, otp, captaiN: req.captain });
 
         setMessageToSocketId(ride.user.socketId, {
             event: 'ride-started',
@@ -135,7 +138,7 @@ module.exports.endRide = async (req, res) => {
     const { rideId } = req.body;
 
     try {
-        const ride = await rideService.endRide({ rideId, captain: req.captain });
+        const ride = await rideService.endRide({ rideId, captaiN: req.captain });
 
         setMessageToSocketId(ride.user.socketId, {
             event: 'ride-ended',

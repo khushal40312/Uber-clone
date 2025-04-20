@@ -16,20 +16,34 @@ async function startCaptainRPCServer() {
     channel.consume(CAPTAIN_QUEUE, async (msg) => {
         try {
             const location = JSON.parse(msg.content.toString());
-            const captains = await captainModel.find({
-                location: {
-                    $geoWithin: {
-                        $centerSphere: [[location.lat, location.lng], location.radius / 6371]
-                    }
-                }
-            });
-            channel.sendToQueue(
-                msg.properties.replyTo,
-                Buffer.from(JSON.stringify(captains)),
-                { correlationId: msg.properties.correlationId }
-            );
+            if (location.type === 'get-captain-near') {
 
-            channel.ack(msg);
+                const captains = await captainModel.find({
+                    location: {
+                        $geoWithin: {
+                            $centerSphere: [[location.lat, location.lng], location.radius / 6371]
+                        }
+                    }
+                });
+                channel.sendToQueue(
+                    msg.properties.replyTo,
+                    Buffer.from(JSON.stringify(captains)),
+                    { correlationId: msg.properties.correlationId }
+                );
+
+                channel.ack(msg);
+                return;
+            } else if (location.type === "get-captain-info") {
+                const captains = await captainModel.findById(location.id);
+                channel.sendToQueue(
+                    msg.properties.replyTo,
+                    Buffer.from(JSON.stringify(captains)),
+                    { correlationId: msg.properties.correlationId }
+                );
+
+                channel.ack(msg);
+            }
+
         } catch (error) {
             console.error('🚨 Error in rideListener:', error);
             channel.ack(msg);

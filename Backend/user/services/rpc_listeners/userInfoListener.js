@@ -15,8 +15,9 @@ async function startuserInfoRPCServer() {
     channel.consume(USERINFO_QUEUE, async (msg) => {
         try {
             const id = msg.content.toString();
+          
             const user = await userModel.findById(id)
-            console.log(user)
+           
             channel.sendToQueue(
                 msg.properties.replyTo,
                 Buffer.from(JSON.stringify(user)),

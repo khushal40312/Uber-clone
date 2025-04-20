@@ -12,7 +12,7 @@ function initializeSocket(server) {
         cors: {
             origin: ['http://localhost:5173'], // Vite dev server
             methods: ['GET', 'POST'],
-            credentials: true
+            
         }
 
     });
@@ -56,6 +56,7 @@ function initializeSocket(server) {
                 const remainingTime = delay - (currentTime - lastUpdatedTime);
                 return socket.emit('error', { message: `Please wait ${Math.ceil(remainingTime / 1000)} seconds before updating the location again` });
             }
+            console.log(location)
             await captainSocketUpdate({
                 userId,
                 location: {
@@ -78,12 +79,17 @@ function initializeSocket(server) {
 }
 
 function setMessageToSocketId(socketId, messageObject) {
+    const ridesNamespace = io.of('/rides');
+    const socketInstance = ridesNamespace.sockets.get(socketId);
 
-    if (io) {
-        io.to(socketId).emit(messageObject.event, messageObject.data);
+    if (socketInstance) {
+        socketInstance.emit(messageObject.event, messageObject.data);
+        console.log(`✅ Sent message to socket ${socketId}`);
     } else {
-        console.log("Socket.io is not initialized");
+        console.log(`❌ Socket not connected: ${socketId}`);
     }
 }
+
+
 
 module.exports = { initializeSocket, setMessageToSocketId };

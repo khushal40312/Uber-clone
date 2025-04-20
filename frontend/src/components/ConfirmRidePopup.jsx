@@ -69,8 +69,8 @@ const ConfirmRidePopup = ({ setConfirmRidePopup, acceptedRide, confirmPanel }) =
                     <div className="border-b-2 border-[#dadada] p-1 flex m-2 items-center flex-start w-full">
                         <h2 className='p-2 rounded-full bg-[#eeeeee] mr-3'><FaLocationDot /></h2>
                         <div className='  w-full'>
-                            <h2 className='flex gap-1 items-center font-semibold text-xl'>{acceptedRide?.pickup?.split(',')[0]}</h2>
-                            <h5 className='font-semibold text-sm text-[#6f6969] '>{acceptedRide?.pickup}</h5>
+                            <h2 className='flex gap-1 items-center font-semibold text-xl'>{acceptedRide?.ride?.pickup?.split(',')[0]}</h2>
+                            <h5 className='font-semibold text-sm text-[#6f6969] '>{acceptedRide?.ride?.pickup}</h5>
 
                         </div>
 
@@ -78,8 +78,8 @@ const ConfirmRidePopup = ({ setConfirmRidePopup, acceptedRide, confirmPanel }) =
                     <div className="border-b-2 border-[#dadada] p-1 flex m-2 items-center flex-start w-full">
                         <h2 className='p-2 rounded-full bg-[#eeeeee] mr-3'><MdSquare /></h2>
                         <div className='  w-full'>
-                            <h2 className='flex gap-1 items-center font-semibold text-xl'>{acceptedRide?.destination?.split(',')[0]}</h2>
-                            <h5 className='font-semibold text-sm text-[#6f6969] '>{acceptedRide?.destination}</h5>
+                            <h2 className='flex gap-1 items-center font-semibold text-xl'>{acceptedRide?.ride?.destination?.split(',')[0]}</h2>
+                            <h5 className='font-semibold text-sm text-[#6f6969] '>{acceptedRide?.ride?.destination}</h5>
 
                         </div>
 
@@ -87,7 +87,7 @@ const ConfirmRidePopup = ({ setConfirmRidePopup, acceptedRide, confirmPanel }) =
                     <div className="border-b-2 border-[#dadada] p-1 flex m-2 items-center flex-start w-full">
                         <h2 className='p-2 rounded-full bg-[#eeeeee] mr-3'><RiBillLine /></h2>
                         <div className='  w-full'>
-                            <h2 className='flex gap-1 items-center font-semibold text-xl'>₹{acceptedRide?.fare}</h2>
+                            <h2 className='flex gap-1 items-center font-semibold text-xl'>₹{acceptedRide?.ride?.fare}</h2>
                             <h5 className='font-semibold text-sm text-[#6f6969] '>Cash Cash</h5>
 
                         </div>

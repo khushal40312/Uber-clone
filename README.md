@@ -907,3 +907,60 @@ gateway/
 Microservices aren’t just talking — they’re thinking together now. Let’s keep scaling, cleanly. 🧠🚦
 
 
+# 🚗 Day 14 – Ride Service RPCs & Cross-Service Ride Flow 🎯
+
+## ✅ What I Did Today
+
+- 🔄 Completed **indirect communication** between `ride`, `user`, and `captain` services using **RabbitMQ (RPC)**.
+- 🛠️ Replaced direct DB population (`populate()`) with **cross-service RPC calls** for getting user and captain info.
+- 🚀 Built and tested major ride flow methods via `rideService`:
+  - `createRide`
+  - `confirmRide`
+  - `startRide`
+  - `endRide`
+- 🧠 Enhanced ride logic with:
+  - Fare calculation
+  - OTP verification
+  - Status transitions (`requested → accepted → ongoing → completed`)
+- 🛰️ Implemented **rideListener** to handle requests from other services via `get_captain` queue.
+
+### 📨 Sample Ride Listener (RabbitMQ RPC)
+
+```js
+channel.consume(CAPTAIN_QUEUE, async (msg) => {
+  const location = JSON.parse(msg.content.toString());
+
+  if (location.type === 'get-captain-near') {
+    const captains = await captainModel.find({
+      location: {
+        $geoWithin: {
+          $centerSphere: [[location.lat, location.lng], location.radius / 6371]
+        }
+      }
+    });
+
+    channel.sendToQueue(
+      msg.properties.replyTo,
+      Buffer.from(JSON.stringify(captains)),
+      { correlationId: msg.properties.correlationId }
+    );
+  }
+});
+```
+#📱 Frontend Check-in
+
+-✅ Started testing frontend ride flow with new APIs.
+
+-⚠️ Some flows still pending for final integration & error handling – lined up for tomorrow.
+
+---
+
+###🔮 Tomorrow's Goals (Day 15)
+🧪 Complete frontend testing of all ride actions (create, confirm, start, end).
+
+🔐 Strengthen role-based route protection.
+
+📊 Add ride history tracking per user & captain.
+
+🐳 Finalize Docker setup for all services.
+

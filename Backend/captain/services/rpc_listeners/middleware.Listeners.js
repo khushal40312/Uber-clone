@@ -3,11 +3,11 @@ const amqp = require('amqplib');
 const jwt = require('jsonwebtoken');
 
 const blacklistTokenModel = require('../../models/blacklistToken.model');
-const userModel = require('../../models/user.model');
+const captainModel = require('../../models/captain.model');
 require('dotenv').config();
 
 
-const MIDDLEWARE_QUEUE = 'get_user';
+const MIDDLEWARE_QUEUE = 'get_captain_middleware';
 async function startMiddlewareRPCServer() {
 
     const conn = await amqp.connect(process.env.AMQP_URL);
@@ -18,9 +18,7 @@ async function startMiddlewareRPCServer() {
     channel.consume(MIDDLEWARE_QUEUE, async (msg) => {
         try {
             const token = msg.content.toString();
-            console.log(token)
             const isBlacklisted = await blacklistTokenModel.findOne({ token })
-            console.log("blk",isBlacklisted)
             if (isBlacklisted) {
                 channel.sendToQueue(
                     msg.properties.replyTo,
@@ -34,7 +32,7 @@ async function startMiddlewareRPCServer() {
 
 
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            const user = await userModel.findById(decoded._id);
+            const user = await captainModel.findById(decoded._id);
 
             if (!user) {
                 channel.sendToQueue(
