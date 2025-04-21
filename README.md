@@ -963,4 +963,94 @@ channel.consume(CAPTAIN_QUEUE, async (msg) => {
 📊 Add ride history tracking per user & captain.
 
 🐳 Finalize Docker setup for all services.
+# 🧱 Day 16 – Full Stack Sync & Dockerized Backend 🐳
 
+## ✅ What I Did Today
+
+Today was all about **bringing the backend and frontend together** in harmony and setting the stage for scalable deployment.
+
+### 🔧 Key Highlights
+
+- 🧪 Completed **frontend testing** for all core ride features:
+  - JSON shape mismatches & mapping conflicts resolved
+  - Cleaned up response handling for user, captain, and ride flows
+- 🐳 **Dockerized all backend services** for consistent dev/prod parity
+- 🔗 Verified inter-service communication inside Docker containers
+- 🛠️ Refined folder volumes and dependencies in `docker-compose.yml`
+
+### 🐳 Docker Compose Snapshot
+
+```yaml
+services:
+  gateway:
+    build: ./Backend/gateway
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./Backend/gateway:/app
+      - /app/node_modules
+    depends_on:
+      - user
+      - captain
+      - rides
+
+  user:
+    build: ./Backend/user
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./Backend/user:/app
+      - /app/node_modules
+
+  captain:
+    build: ./Backend/captain
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./Backend/captain:/app
+      - /app/node_modules
+
+  rides:
+    build: ./Backend/rides
+    ports:
+      - "3003:3003"
+    volumes:
+      - ./Backend/rides:/app
+      - /app/node_modules
+
+  mongo:
+    image: mongo
+    container_name: uber-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      - MONGO_LOG_LEVEL=warn
+
+volumes:
+  mongo-data:
+```
+
+#🧠 Lessons Learned
+-Dockerizing microservices isn’t just packaging — it’s stabilizing the foundation for scale.
+-Debugging front-to-back is a rite of passage in any real-world app. ✅
+
+---
+
+#🔭 What’s Next?
+
+-After wrapping this Uber clone’s MVP:
+
+-🔁 Explore LangChain, GraphQL, and Neo4j/Graph DBs
+
+-🛠️ Next project ideas:
+
+-📹 Google Meet Clone (WebRTC/Socket.io)
+
+-📈 Trading App Clone (Real-time data + charts)
+
+-🌐 Minimal Browser Replica (custom JS runtime, tabs, bookmarks?)
+
+`🚀 Microservices in containers, frontend in sync — next stop: the cloud.
+Keep building. Keep scaling. Keep shipping. 🌊`

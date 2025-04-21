@@ -61,7 +61,7 @@ module.exports.loginCaptian = async (req, res) => {
     res.status(200).json({ token, captain })
 }
 module.exports.getCaptainProfile = async (req, res) => {
-
+console.log(req.captain)
     const rides = await getCaptainRides( req.captain._id );
 
     res.status(200).json({

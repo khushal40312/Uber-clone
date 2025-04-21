@@ -3,3 +3,11 @@
 
 # Ignore all .env files
 **/.env
+
+
+**/docker-compose.yml
+
+
+**/Dockerfile
+
+

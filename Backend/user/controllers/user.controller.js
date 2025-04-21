@@ -52,6 +52,7 @@ module.exports.loginUser = async (req, res, next) => {
 
 }
 module.exports.getUserProfile = async (req, res) => {
+    console.log("user-abc",req.user)
     try {
       const rides = await getUserRides(req.user._id.toString());
   

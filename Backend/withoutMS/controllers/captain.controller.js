@@ -60,7 +60,7 @@ module.exports.loginCaptian = async (req, res) => {
     res.status(200).json({ token, captain })
 }
 module.exports.getCaptainProfile = async (req, res) => {
-console.log("ex:",req.captain._id )
+
     const rides = await rideModel.find({ captain: req.captain._id });
 
     res.status(200).json({

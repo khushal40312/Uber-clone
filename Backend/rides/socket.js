@@ -56,7 +56,7 @@ function initializeSocket(server) {
                 const remainingTime = delay - (currentTime - lastUpdatedTime);
                 return socket.emit('error', { message: `Please wait ${Math.ceil(remainingTime / 1000)} seconds before updating the location again` });
             }
-            console.log(location)
+           
             await captainSocketUpdate({
                 userId,
                 location: {

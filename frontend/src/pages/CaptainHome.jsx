@@ -49,7 +49,7 @@ const CaptainHome = () => {
   useEffect(() => {
 
     socket.on('new-ride', (data) => {
-console.log(data)
+
       setRides((prev) => [...prev, data])
 
 

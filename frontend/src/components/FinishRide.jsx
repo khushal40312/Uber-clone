@@ -14,7 +14,7 @@ const FinishRide = ({ openFinishRide, setFinishRide,finishRideModal }) => {
     async function endRide() {
         await toast.promise(
           axios.post(`${import.meta.env.VITE_BASE_URL}/rides/end-ride`, {
-            rideId: ride._id
+            rideId: ride.ride._id
           }, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('cap-token')}`
@@ -54,7 +54,7 @@ const FinishRide = ({ openFinishRide, setFinishRide,finishRideModal }) => {
                     <h2 className=' font-semibold m-2 capitalize'>{ride.user?.fullname.firstname} {ride.user?.fullname.lastname}</h2>
                 </div>
                 <div>
-                    <h2 className='text-xl font-semibold text-right'>{ride?.distance}</h2>
+                    <h2 className='text-xl font-semibold text-right'>{ride?.ride?.distance}</h2>
 
                 </div>
             </div>
@@ -63,8 +63,8 @@ const FinishRide = ({ openFinishRide, setFinishRide,finishRideModal }) => {
                 <div className="border-b-2 border-[#dadada] p-1 flex m-2 items-center flex-start w-full">
                     <h2 className='p-2 rounded-full bg-[#eeeeee] mr-3'><FaLocationDot /></h2>
                     <div className='  w-full'>
-                        <h2 className='flex gap-1 items-center font-semibold text-xl'>{ride.pickup?.split(',')[0] || ride.pickup?.split(' ')[0]}</h2>
-                        <h5 className='font-semibold text-sm text-[#6f6969] '>{ride?.pickup}</h5>
+                        <h2 className='flex gap-1 items-center font-semibold text-xl'>{ride.ride?.pickup?.split(',')[0] || ride.ride?.pickup?.split(' ')[0]}</h2>
+                        <h5 className='font-semibold text-sm text-[#6f6969] '>{ride?.ride?.pickup}</h5>
 
                     </div>
 
@@ -72,8 +72,8 @@ const FinishRide = ({ openFinishRide, setFinishRide,finishRideModal }) => {
                 <div className="border-b-2 border-[#dadada] p-1 flex m-2 items-center flex-start w-full">
                     <h2 className='p-2 rounded-full bg-[#eeeeee] mr-3'><MdSquare /></h2>
                     <div className='  w-full'>
-                        <h2 className='flex gap-1 items-center font-semibold text-xl'>{ride.destination?.split(',')[0] || ride.destination?.split(' ')[0]}</h2>
-                        <h5 className='font-semibold text-sm text-[#6f6969] '>{ride?.destination}</h5>
+                        <h2 className='flex gap-1 items-center font-semibold text-xl'>{ride.ride?.destination?.split(',')[0] || ride.ride?.destination?.split(' ')[0]}</h2>
+                        <h5 className='font-semibold text-sm text-[#6f6969] '>{ride?.ride?.destination}</h5>
 
                     </div>
 
@@ -81,7 +81,7 @@ const FinishRide = ({ openFinishRide, setFinishRide,finishRideModal }) => {
                 <div className="border-b-2 border-[#dadada] p-1 flex m-2 items-center flex-start w-full">
                     <h2 className='p-2 rounded-full bg-[#eeeeee] mr-3'><RiBillLine /></h2>
                     <div className='  w-full'>
-                        <h2 className='flex gap-1 items-center font-semibold text-xl'>₹{ride?.fare}</h2>
+                        <h2 className='flex gap-1 items-center font-semibold text-xl'>₹{ride?.ride?.fare}</h2>
                         <h5 className='font-semibold text-sm text-[#6f6969] '>Cash Cash</h5>
 
                     </div>

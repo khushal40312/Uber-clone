@@ -18,9 +18,9 @@ async function startMiddlewareRPCServer() {
     channel.consume(MIDDLEWARE_QUEUE, async (msg) => {
         try {
             const token = msg.content.toString();
-            console.log(token)
+            
             const isBlacklisted = await blacklistTokenModel.findOne({ token })
-            console.log("blk",isBlacklisted)
+           
             if (isBlacklisted) {
                 channel.sendToQueue(
                     msg.properties.replyTo,

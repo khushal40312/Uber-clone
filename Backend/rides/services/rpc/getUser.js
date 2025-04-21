@@ -4,7 +4,7 @@ const dotenv = require('dotenv')
 
 dotenv.config();
 async function getUser(userId) {
-    console.log(userId)
+ 
   const conn = await amqp.connect(process.env.AMQP_URL);
   const channel = await conn.createChannel();
 

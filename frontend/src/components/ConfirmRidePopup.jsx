@@ -21,7 +21,7 @@ const ConfirmRidePopup = ({ setConfirmRidePopup, acceptedRide, confirmPanel }) =
       
         await toast.promise(
           axios.get(`${import.meta.env.VITE_BASE_URL}/rides/start-ride`, {
-            params: { rideId: acceptedRide._id, otp },
+            params: { rideId: acceptedRide.ride._id, otp },
             headers: {
               Authorization: `Bearer ${localStorage.getItem('cap-token')}`
             }

@@ -38,8 +38,8 @@ const Riding = () => {
             <img className='w-13 absolute left-12 top-5 z-1' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
 
             <MapComponent
-                pickup={{ lat: position2.lat, lng: position2.lng }}
-                destination={{ lat: ride.end?.latitude, lng: ride.end?.longitude }}
+                pickup={{ lat: position2?.lat, lng: position2?.lng }}
+                destination={{ lat: ride?.ride?.end?.latitude, lng: ride?.ride?.end?.longitude }}
                 height={'52vh'}
             />
             <Link to='/home' className='fixed right-2 top-2 bg-white w-10 h-10 flex items-center justify-center rounded-xl'><AiFillHome size={22} /></Link>
@@ -58,8 +58,8 @@ const Riding = () => {
                         <div className="border-b-2 border-[#dadada] p-1 flex m-2 items-center flex-start w-full">
                             <h2 className='p-2 rounded-full bg-[#eeeeee] mr-3'><MdSquare /></h2>
                             <div className='  w-full'>
-                                <h2 className='flex gap-1 items-center font-semibold text-xl'>{ride.destination?.split(',')[0] || ride.destination?.split(' ')[0]}</h2>
-                                <h5 className='font-semibold text-sm text-[#6f6969] '>{ride?.destination}</h5>
+                                <h2 className='flex gap-1 items-center font-semibold text-xl'>{ride?.ride?.destination?.split(',')[0] || ride?.ride?.destination?.split(' ')[0]}</h2>
+                                <h5 className='font-semibold text-sm text-[#6f6969] '>{ride?.ride?.destination}</h5>
 
                             </div>
 
@@ -67,7 +67,7 @@ const Riding = () => {
                         <div className="border-b-2 border-[#dadada] p-1 flex m-2 items-center flex-start w-full">
                             <h2 className='p-2 rounded-full bg-[#eeeeee] mr-3'><RiBillLine /></h2>
                             <div className='  w-full'>
-                                <h2 className='flex gap-1 items-center font-semibold text-xl'>₹{ride?.fare}</h2>
+                                <h2 className='flex gap-1 items-center font-semibold text-xl'>₹{ride?.ride?.fare}</h2>
                                 <h5 className='font-semibold text-sm text-[#6f6969] '>Cash Cash</h5>
 
                             </div>
