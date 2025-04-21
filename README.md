@@ -1032,13 +1032,13 @@ volumes:
   mongo-data:
 ```
 
-#🧠 Lessons Learned
+# 🧠 Lessons Learned
 -Dockerizing microservices isn’t just packaging — it’s stabilizing the foundation for scale.
 -Debugging front-to-back is a rite of passage in any real-world app. ✅
 
 ---
 
-#🔭 What’s Next?
+# 🔭 What’s Next?
 
 -After wrapping this Uber clone’s MVP:
 
