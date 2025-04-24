@@ -8,13 +8,14 @@ export default {
   build: {
     rollupOptions: {
       output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            if (id.includes('react')) return 'vendor-react'
-            if (id.includes('leaflet')) return 'vendor-leaflet'
-            return 'vendor'
-          }
-        }
+manualChunks(id) {
+  if (id.includes('node_modules')) {
+    if (id.includes('leaflet')) return 'leaflet-vendor'
+    if (id.includes('react-toastify')) return 'toastify-vendor'
+    return 'vendor'
+  }
+}
+
       }
     }
   }
