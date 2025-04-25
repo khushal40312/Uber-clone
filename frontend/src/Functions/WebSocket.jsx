@@ -8,7 +8,7 @@ const WebSocket = () => {
          //    path: '/rides/socket.io',
          //    transports: ['websocket'],
          //  });   // with Micro-services
-          socket = io('http://localhost:3000') // for without Micro-services
+          socket = io(import.meta.env.VITE_BASE_URL) // for without Micro-services
           
 
         socket.on('connect', () => {
