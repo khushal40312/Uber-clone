@@ -198,7 +198,7 @@ const Home = () => {
 
     setLoading(true)
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`, {
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-fare`, {
         params: { pickup: location, destination: destination },
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
