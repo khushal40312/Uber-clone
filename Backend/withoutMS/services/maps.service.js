@@ -94,7 +94,7 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
         const response = await axios.get(url);
 
         if (response.data.status === 'OK') {
-
+ console.log(response.data)
             return response.data.predictions
         }
     } catch (err) {
