@@ -18,9 +18,6 @@ const UserLogin = () => {
 
     window.location.href = url;
   }, []);
-
-  return null; // or a "Redirecting..." message
-};
   const {  setIsAuthenticated } = React.useContext(UserDataContext)
   const navigate = useNavigate();
 
