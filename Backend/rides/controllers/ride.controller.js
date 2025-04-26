@@ -24,7 +24,7 @@ module.exports.createRide = async (req, res, next) => {
         res.status(201).json(ride);
 
         const pickupCoordinates = await mapService.getAddressCoordinate(pickup)
-        const captainsInRadius = await mapService.getCaptainsInTheRadius(pickupCoordinates.lat, pickupCoordinates.lng, 1000)
+        const captainsInRadius = await mapService.getCaptainsInTheRadius(pickupCoordinates.lat, pickupCoordinates.lng, 3)
       
         const userInfo = await getUser(ride.user)
 
