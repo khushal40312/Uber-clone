@@ -21,7 +21,7 @@ const carIcon = new L.Icon({
   iconAnchor: [16, 32], // center bottom
 });
 const MapComponent = ({ pickup, destination, height }) => {
-console.log(pickup,destination)
+// console.log(pickup,destination)
 
   const [routeCoords, setRouteCoords] = useState([]);
 

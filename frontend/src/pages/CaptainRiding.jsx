@@ -63,7 +63,7 @@ const CaptainRiding = () => {
             <img className='w-13 absolute left-12 top-5 z-1' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
             {position?.lat ? <MapComponent
                 pickup={{ lat: position?.lat, lng: position?.lng }}
-                destination={{ lat: ride?.ride?.end?.latitude, lng: ride?.ride?.end?.longitude }}
+                destination={{ lat: ride?.end?.latitude, lng: ride?.end?.longitude }}
                 height={'90vh'}
             /> : <div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-md z-50">
                     <Loading />

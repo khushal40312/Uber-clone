@@ -130,7 +130,7 @@ const CaptainHome = () => {
       <LiveTracking position2={position2} height={"69vh"} />
       <Link to='/captains/logout' className='fixed right-2 top-2 bg-white w-10 h-10 flex items-center justify-center rounded-xl'><IoIosLogOut size={22} /></Link>
       <CaptainDetails />
-      {rides&&<RidePopup setRides={setRides} rides={rides} setConfirmRidePopup={setConfirmRidePopup} setAcceptedRide={setAcceptedRide} confirmRide={confirmRide} />}
+      <RidePopup setRides={setRides} rides={rides} setConfirmRidePopup={setConfirmRidePopup} setAcceptedRide={setAcceptedRide} confirmRide={confirmRide} />
       {loading ? <div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-md z-50">
         <Loading />
       </div> :
