@@ -10,14 +10,7 @@ const UserLogin = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   // const [userData, setUserData] = useState({})
-  useEffect(() => {
-    const phoneNumber = '7018340312'; // Replace with your number
-    const message = encodeURIComponent("Hi, I'm interested in accessing your website. Please open it for atleast 15 min"
-    );
-    const url = `https://wa.me/${phoneNumber}?text=${message}`;
-
-    window.location.href = url;
-  }, []);
+  
   const {  setIsAuthenticated } = React.useContext(UserDataContext)
   const navigate = useNavigate();
 
