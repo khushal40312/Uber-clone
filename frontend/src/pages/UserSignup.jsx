@@ -37,7 +37,7 @@ const UserSignup = () => {
           render({ data }) {
             const res = data.data;
             setIsAuthenticated(true);
-            navigate('/home');
+            navigate('/login');
             return 'Signup successful!';
           },
         },
